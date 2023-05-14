@@ -84,7 +84,7 @@ jobs:
               # Empty sources list in-place
               go-yq -i 'del(.sources.[])' "${chart}/Chart.yaml"
               # Add truechart source
-              tcsource="https://github.com/truecharts/charts/tree/master/charts/$train/$chartname" go-yq -i '.sources += env(tcsource)' "${chart}/Chart.yaml"
+              tcsource="https://github.com/cyr-ius/truecharts-charts/tree/master/charts/$train/$chartname" go-yq -i '.sources += env(tcsource)' "${chart}/Chart.yaml"
               # Add the rest of the sources
               while IFS= read -r line; do
                 src="$line" go-yq -i '.sources += env(src)' "${chart}/Chart.yaml" || echo "src set error"
@@ -140,8 +140,8 @@ jobs:
           rm -rf my-refs
       - name: Commit and Push new version
         run: |
-          git config user.name "TrueCharts-Bot"
-          git config user.email "bot@truecharts.org"
+          git config user.name "cyr-ius"
+          git config user.email "cyr-ius@ipocus.net"
           git add --all
           git commit -sm "Commit bumped Chart Version" || exit 0
           git push

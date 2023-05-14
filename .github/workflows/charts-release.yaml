@@ -204,10 +204,10 @@ jobs:
           steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
         with:
           fetch-depth: 1
-          repository: truecharts/catalog
+          repository: cyr-ius/truenas-catalog
           token: ${{ secrets.BOT_TOKEN }}
           ref: staging
-          path: catalog
+          path: truenas-catalog
 
       - name: build catalog
         shell: bash

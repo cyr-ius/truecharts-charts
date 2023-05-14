@@ -122,7 +122,7 @@ jobs:
             # Empty sources list in-place
             go-yq -i 'del(.sources.[])' "${chart}/Chart.yaml"
             # Add truechart source
-            tcsource="https://github.com/truecharts/charts/tree/master/charts/$train/$chartname" go-yq -i '.sources += env(tcsource)' "${chart}/Chart.yaml"
+            tcsource="https://github.com/cyr-ius/truecharts-charts/tree/master/charts/$train/$chartname" go-yq -i '.sources += env(tcsource)' "${chart}/Chart.yaml"
             # Get the container image name that was parsed out of the Dockerfile for the website.
             container=$(cat website/docs/charts/description_list.md | grep "\[${chartname}\]" | cut -f3 -d '|' | grep -v 'Not Found' || echo "")
             # Convert the container image name to a URL.
@@ -211,8 +211,8 @@ jobs:
 
       - name: Commit changes
         run: |
-          git config user.name "TrueCharts-Bot"
-          git config user.email "bot@truecharts.org"
+          git config user.name "cyr-ius"
+          git config user.email "cyr-ius@ipocus.nets"
           git pull
           git add --all
           git commit -sm "Commit daily changes" || exit 0
@@ -342,8 +342,8 @@ jobs:
       - name: Commit Website Changes
         run: |
           cd website
-          git config user.name "TrueCharts-Bot"
-          git config user.email "bot@truecharts.org"
+          git config user.name "cyr-ius"
+          git config user.email "cyr-ius@ipocus.net"
           git pull
           git add --all
           git commit -sm "Commit released docs for TrueCharts" || exit 0
