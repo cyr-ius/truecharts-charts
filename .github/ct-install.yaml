@@ -1,5 +1,5 @@
 remote: origin
-target-branch: master
+target-branch: my-refs
 helm-extra-args: --timeout 180s
 chart-yaml-schema: .github/chart_schema.yaml
 chart-dirs:

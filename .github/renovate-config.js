@@ -1,10 +1,10 @@
 module.exports = {
   dryRun: false,
-  username: "truecharts-admin",
-  gitAuthor: "truecharts-admin <bot@truecharts.org>",
+  username: "cyr-ius",
+  gitAuthor: "cyr-ius@ipocus.net",
   onboarding: false,
   platform: "github",
-  repositories: ["truecharts/charts"],
+  repositories: ["cyr-ius/truecharts-charts"],
   packageRules: [
     {
       description: "lockFileMaintenance",
