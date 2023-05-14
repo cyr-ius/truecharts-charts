@@ -46,6 +46,8 @@ for train in dependency enterprise; do
       echo "Bumping version for ${train}/${chart}"
       OLDVER=$(cat ${chart}/Chart.yaml | grep "^version: ")
       OLDVER=${OLDVER#version: }
+      echo $OLDVER
+      
       NEWVER=$(incr_semver ${OLDVER} ${BUMPTYPE})
       sed -i "s|^version:.*|version: ${NEWVER}|g" ${chart}/Chart.yaml
     fi

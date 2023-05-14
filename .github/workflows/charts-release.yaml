@@ -12,49 +12,6 @@ on:
 
 jobs:
 
-  release-helm:
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/truecharts/devcontainer:3.1.10@sha256:c239addf725eb5cedf79517f8089fdafdc32b5270d1893ee87ae6e511b9bcae3
-    steps:
-      - name: Checkout
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
-        with:
-          token: ${{ secrets.BOT_TOKEN }}
-          fetch-depth: 1
-
-      - name: Checkout Helm-Staging
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
-        with:
-          fetch-depth: 1
-          repository: truecharts/helm-staging
-          token: ${{ secrets.BOT_TOKEN }}
-          path: helm
-
-      - name: Fix Pre-Commit issues
-        shell: bash
-        run: |
-          echo "Running pre-commit test-and-cleanup..."
-          pre-commit run --all ||:
-          # Fix sh files to always be executable
-          find . -name '*.sh' | xargs chmod +x
-
-      - name: Commit Helm Changes
-        run: |
-          rm -rf helm/charts
-          mkdir helm/charts
-          cp -rf charts helm
-
-      - name: Commit Helm Changes
-        run: |
-          cd helm
-          git config user.name "TrueCharts-Bot"
-          git config user.email "bot@truecharts.org"
-          git add --all
-          git commit -sm "Commit released Helm Charts for TrueCharts" || exit 0
-          git push
-          cd -
-
   release-scale:
     runs-on: ubuntu-latest
     outputs:
@@ -97,7 +54,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
         with:
-          token: ${{ secrets.BOT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Setting repo parent dir as safe safe.directory
@@ -133,7 +90,7 @@ jobs:
         with:
           fetch-depth: 1
           repository: truecharts/website
-          token: ${{ secrets.BOT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           path: website
 
       - name: Copy docs to website
@@ -234,8 +191,8 @@ jobs:
           steps.collect-changes.outputs.changesDetected == 'true'
         run: |
           cd website
-          git config user.name "TrueCharts-Bot"
-          git config user.email "bot@truecharts.org"
+          git config user.name "cyr-ius"
+          git config user.email "cyr-ius@ipocus.net"
           git add --all
           git commit -sm "Commit released docs for TrueCharts" || exit 0
           git push
@@ -248,7 +205,7 @@ jobs:
         with:
           fetch-depth: 1
           repository: truecharts/catalog
-          token: ${{ secrets.BOT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           ref: staging
           path: catalog
 
@@ -272,8 +229,8 @@ jobs:
           steps.collect-changes.outputs.changesDetected == 'true'
         run: |
           cd catalog
-          git config user.name "TrueCharts-Bot"
-          git config user.email "bot@truecharts.org"
+          git config user.name "cyr-ius"
+          git config user.email "cyr-ius@ipocus.net"
           git add --all
           git commit -sm "Commit new Chart releases for TrueCharts" || exit 0
           git push
@@ -285,8 +242,8 @@ jobs:
           steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
         shell: bash
         run: |
-          git config user.name "TrueCharts-Bot"
-          git config user.email "bot@truecharts.org"
+          git config user.name "cyr-ius"
+          git config user.email "cyr-ius@ipocus.net"
 
         # Optional step if GPG signing is used
       - name: Prepare GPG key
@@ -313,7 +270,7 @@ jobs:
           charts_repo_url: https://deps.truecharts.org
           config: cr.yaml
         env:
-          CR_TOKEN: "${{ secrets.BOT_TOKEN }}"
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_SKIP_EXISTING: "true"
 
       - name: Tag App Releases
