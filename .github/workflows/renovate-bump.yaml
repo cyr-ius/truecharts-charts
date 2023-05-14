@@ -24,7 +24,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: my-refs
-          path: my-refs
+          path: master
 
       - name: Setting repo parent dir as safe safe.directory
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -137,7 +137,7 @@ jobs:
       - name: Cleanup
         run: |
           rm -rf changes.json
-          rm -rf my-refs
+          rm -rf master
       - name: Commit and Push new version
         run: |
           git config user.name "cyr-ius"

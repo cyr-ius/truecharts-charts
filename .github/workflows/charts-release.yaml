@@ -205,7 +205,7 @@ jobs:
           repository: cyr-ius/truenas-catalog
           token: ${{ secrets.BOT_TOKEN }}
           ref: hass
-          path: truenas-catalog
+          path: catalog
 
       - name: build catalog
         shell: bash
