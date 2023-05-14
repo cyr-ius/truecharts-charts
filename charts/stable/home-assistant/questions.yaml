@@ -3,6 +3,37 @@ portals:
   open:
 # Include{portalLink}
 questions:
+  - variable: image
+    group: "Container Image"
+    label: "Container"
+    schema:
+      additional_attrs: true
+      type: dict
+      attrs:
+        - variable: repository
+          label: "Container Repository"
+          schema:
+            type: string
+            default: "homeassistant/home-assistant"
+            required: true
+        - variable: tag
+          label: "Container Tag"
+          schema:
+            type: string
+            default: "2022.12.9"
+            required: true
+        - variable: pullPolicy
+          label: "Container Pullpolicy"
+          schema:
+            type: string
+            default: "IfNotPresent"
+            enum:
+              - value: "IfNotPresent"
+                description: "IfNotPresent"
+              - value: "Always"
+                description: "Always"
+              - value: "Never"
+                description: "Never"
 # Include{global}
 # Include{workload}
 # Include{workloadDeployment}
