@@ -1,8 +1,8 @@
 owner: cyr-ius
-git-repo: truenas-catalog
+git-repo: truecharts-charts
 repo: charts
 charts-dir: charts/*
-charts_repo_url: "https://github.com/cyr-ius/truenas-catalog"
+charts_repo_url: "https://deps.truecharts.org"
 SkipExisting: true
 skipExisting: true
 # Set to true for GPG signing
