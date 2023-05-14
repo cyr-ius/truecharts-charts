@@ -22,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.BOT_TOKEN }}
           fetch-depth: 1
 
       - name: Setting repo parent dir as safe safe.directory
@@ -60,7 +60,7 @@ jobs:
           repository: truecharts/website
           path: website
           fetch-depth: 1
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.BOT_TOKEN }}
 
       - name: Bump and Sync
         shell: bash
@@ -242,7 +242,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.BOT_TOKEN }}
           fetch-depth: 1
 
       - name: Setting repo parent dir as safe safe.directory
@@ -253,7 +253,7 @@ jobs:
         with:
           fetch-depth: 1
           repository: truecharts/website
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.BOT_TOKEN }}
           path: website
 
       - name: fetch dependencies
@@ -354,7 +354,7 @@ jobs:
     steps:
       - uses: dessant/lock-threads@c1b35aecc5cdb1a34539d14196df55838bb2f836 # v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.BOT_TOKEN }}
           issue-inactive-days: "7"
           exclude-any-issue-labels: ""
           issue-comment: "This issue is locked to prevent necro-posting on closed issues. Please create a new issue or contact staff on discord of the problem persists"
@@ -371,7 +371,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.BOT_TOKEN }}
           fetch-depth: 1
 
       - uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
@@ -384,6 +384,6 @@ jobs:
 
       - name: List missing and unknown contributors
         env:
-          PRIVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PRIVATE_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: |
           awk -F', ' '{ for( i=1; i<=NF; i++ ) print $i }' <<<$(yarn all-contributors check)
