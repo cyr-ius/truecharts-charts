@@ -130,7 +130,7 @@ for idx in $(eval echo "{0..$length}"); do
     fi
 done
 }
-export -f 
+export -f
 
 load_gpg_key
 

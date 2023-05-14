@@ -1,4 +1,4 @@
-owner: cyr-ius 
+owner: cyr-ius
 git-repo: truenas-catalog
 repo: charts
 charts-dir: charts/*
