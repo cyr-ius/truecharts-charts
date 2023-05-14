@@ -83,15 +83,15 @@ jobs:
           # Fix sh files to always be executable
           find . -name '*.sh' | xargs chmod +x
 
-      #~ - name: Checkout
-        #~ uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
-        #~ if: |
-          #~ steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
-        #~ with:
-          #~ fetch-depth: 1
-          #~ repository: truecharts/website
-          #~ token: ${{ secrets.BOT_TOKEN }}
-          #~ path: website
+      - name: Checkout
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+        if: |
+          steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
+        with:
+          fetch-depth: 1
+          repository: truecharts/website
+          token: ${{ secrets.BOT_TOKEN }}
+          path: website
 
       #~ - name: Copy docs to website
         #~ if: |
