@@ -51,7 +51,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
         with:
-          token: ${{ secrets.BOT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Setting repo parent dir as safe safe.directory
@@ -87,7 +87,7 @@ jobs:
         with:
           fetch-depth: 1
           repository: truecharts/website
-          token: ${{ secrets.BOT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           path: website
 
       #~ - name: Copy docs to website
@@ -266,7 +266,7 @@ jobs:
           charts_repo_url: https://deps.truecharts.org
           config: cr.yaml
         env:
-          CR_TOKEN: "${{ secrets.BOT_TOKEN }}"
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_SKIP_EXISTING: "true"
 
       - name: Tag App Releases
