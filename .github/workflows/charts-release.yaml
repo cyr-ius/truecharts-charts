@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - my-refs
     paths:
       - "charts/**"
 
