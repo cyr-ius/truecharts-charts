@@ -101,6 +101,7 @@ jobs:
                 .sources[] |
                 select(
                   . != "https://github.com/truecharts*" and
+                  . != "https://github.com/cyr-ius/truecharts*" and
                   . != "https://ghcr*" and
                   . != "docker.io*" and
                   . != "https://docker.io*" and
