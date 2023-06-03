@@ -19,7 +19,8 @@ maintainers:
 name: home-assistant
 sources:
   - https://github.com/cyr-ius/truenas-charts/tree/my-refs/charts/stable/home-assistant
-  - https://github.com/cyr-ius/truenas-catalog/tree/my-refs/charts/stable/home-assistant
+  - https://github.com/cyr-ius/truenas-catalog/tree/hass/stable/home-assistant
+  - https://github.com/cyr-ius/truenas-catalog/tree/my-refs/stable/home-assistant
   - https://github.com/home-assistant/home-assistant
   - https://github.com/cdr/code-server
 type: application
