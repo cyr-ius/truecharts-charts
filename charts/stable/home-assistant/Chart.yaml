@@ -19,12 +19,11 @@ maintainers:
 name: home-assistant
 sources:
   - https://github.com/cyr-ius/truenas-charts/tree/my-refs/charts/stable/home-assistant
-  - https://github.com/cyr-ius/truenas-catalog/tree/hass/stable/home-assistant
-  - https://github.com/cyr-ius/truenas-catalog/tree/my-refs/stable/home-assistant
+  - https://github.com/cyr-ius/truenas-catalog/tree/master/stable/home-assistant
   - https://github.com/home-assistant/home-assistant
   - https://github.com/cdr/code-server
 type: application
-version: 20.11.4
+version: 20.11.5
 annotations:
   truecharts.org/catagories: |
     - home-automation

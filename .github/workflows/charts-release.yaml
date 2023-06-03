@@ -202,7 +202,7 @@ jobs:
           fetch-depth: 1
           repository: cyr-ius/truenas-catalog
           token: ${{ secrets.BOT_TOKEN }}
-          ref: hass
+          ref: master
           path: catalog
 
       - name: build catalog
