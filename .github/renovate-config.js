@@ -4,7 +4,7 @@ module.exports = {
   gitAuthor: "cyr-ius@ipocus.net",
   onboarding: false,
   platform: "github",
-  repositories: ["cyr-ius/truecharts-charts"],
+  repositories: ["cyr-ius/truenas-charts"],
   packageRules: [
     {
       description: "lockFileMaintenance",

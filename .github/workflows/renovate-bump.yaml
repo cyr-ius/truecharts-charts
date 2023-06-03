@@ -36,13 +36,6 @@ jobs:
           filters: |
             changed:
             - 'charts/stable/**'
-            - 'charts/incubator/**'
-            - 'charts/SCALE/**'
-            - 'charts/library/**'
-            - 'charts/dependency/**'
-            - 'charts/core/**'
-            - 'charts/enterprise/**'
-            - 'charts/games/**'
       - name: Filter filter-output
         run: echo '${{ toJson(steps.filter.outputs) }}' > changes.json
 
@@ -84,7 +77,7 @@ jobs:
               # Empty sources list in-place
               go-yq -i 'del(.sources.[])' "${chart}/Chart.yaml"
               # Add truechart source
-              tcsource="https://github.com/cyr-ius/truecharts-charts/tree/master/charts/$train/$chartname" go-yq -i '.sources += env(tcsource)' "${chart}/Chart.yaml"
+              tcsource="https://github.com/cyr-ius/truenas-charts/tree/master/charts/$train/$chartname" go-yq -i '.sources += env(tcsource)' "${chart}/Chart.yaml"
               # Add the rest of the sources
               while IFS= read -r line; do
                 src="$line" go-yq -i '.sources += env(src)' "${chart}/Chart.yaml" || echo "src set error"
