@@ -24,7 +24,7 @@ sources:
   - https://github.com/home-assistant/home-assistant
   - https://github.com/cdr/code-server
 type: application
-version: 20.11.7
+version: 20.11.8
 annotations:
   truecharts.org/catagories: |
     - home-automation
