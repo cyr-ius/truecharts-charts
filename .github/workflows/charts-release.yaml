@@ -249,17 +249,6 @@ jobs:
               fi
           done
 
-      - name: Commit Website Changes
-        if: |
-          steps.collect-changes.outputs.changesDetected == 'true'
-        run: |
-          cd website
-          git config user.name "TrueCharts-Bot"
-          git config user.email "bot@truecharts.org"
-          git add --all
-          git commit -sm "Commit released docs for TrueCharts" || exit 0
-          git push
-
       - name: Checkout Catalog
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
         if: |
