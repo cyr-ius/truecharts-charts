@@ -31,7 +31,7 @@ jobs:
       - name: generate readme.md
         shell: bash
         run: |
-          for train in stable SCALE incubator games enterprise develop non-free deprecated dependency core; do
+          for train in stable SCALE develop non-free deprecated dependency; do
             for chart in charts/${train}/*; do
               if [ -d "${chart}" ]; then
                 echo "Generating readme.md for ${train}/${chart}"
@@ -44,7 +44,7 @@ jobs:
       - name: generate HelmIgnore
         shell: bash
         run: |
-          for train in stable SCALE incubator games enterprise develop non-free deprecated dependency core; do
+          for train in stable SCALE develop non-free deprecated dependency; do
             for chart in charts/${train}/*; do
               if [ -d "${chart}" ]; then
                 echo "Attempting to sync HelmIgnore file for: ${chartname}"
@@ -218,135 +218,135 @@ jobs:
           git commit -sm "Commit daily changes" || exit 0
           git push
 
-  generate-security-reports:
-    runs-on: ubuntu-latest
-    name: "Generate Security Reports"
-    container:
-      image: ghcr.io/truecharts/devcontainer:3.1.10@sha256:c239addf725eb5cedf79517f8089fdafdc32b5270d1893ee87ae6e511b9bcae3
-    steps:
-      - name: Install Kubernetes tools
-        uses: yokawasa/action-setup-kube-tools@af4ebb1af1efd30c5bd84a2e9773355ad6362a33 # v0.9.3
-        with:
-          setup-tools: |
-            helmv3
-          helm: "3.8.0"
+#   generate-security-reports:
+#     runs-on: ubuntu-latest
+#     name: "Generate Security Reports"
+#     container:
+#       image: ghcr.io/truecharts/devcontainer:3.1.10@sha256:c239addf725eb5cedf79517f8089fdafdc32b5270d1893ee87ae6e511b9bcae3
+#     steps:
+#       - name: Install Kubernetes tools
+#         uses: yokawasa/action-setup-kube-tools@af4ebb1af1efd30c5bd84a2e9773355ad6362a33 # v0.9.3
+#         with:
+#           setup-tools: |
+#             helmv3
+#           helm: "3.8.0"
 
-      - name: Prep Helm
-        run: |
-          helm repo add truecharts https://charts.truecharts.org
-          helm repo add truecharts-library https://library-charts.truecharts.org
-          helm repo add truecharts-deps https://deps.truecharts.org
-          helm repo update
+#       - name: Prep Helm
+#         run: |
+#           helm repo add truecharts https://charts.truecharts.org
+#           helm repo add truecharts-library https://library-charts.truecharts.org
+#           helm repo add truecharts-deps https://deps.truecharts.org
+#           helm repo update
 
-      - name: Checkout
-        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
-        with:
-          token: ${{ secrets.BOT_TOKEN }}
-          fetch-depth: 1
+#       - name: Checkout
+#         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+#         with:
+#           token: ${{ secrets.BOT_TOKEN }}
+#           fetch-depth: 1
 
-      - name: Setting repo parent dir as safe safe.directory
-        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+#       - name: Setting repo parent dir as safe safe.directory
+#         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-      - name: Checkout website
-        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
-        with:
-          fetch-depth: 1
-          repository: truecharts/website
-          token: ${{ secrets.BOT_TOKEN }}
-          path: website
+#       - name: Checkout website
+#         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+#         with:
+#           fetch-depth: 1
+#           repository: truecharts/website
+#           token: ${{ secrets.BOT_TOKEN }}
+#           path: website
 
-      - name: fetch dependencies
-        shell: bash
-        run: |
-          .github/scripts/fetch_helm_deps.sh
+#       - name: fetch dependencies
+#         shell: bash
+#         run: |
+#           .github/scripts/fetch_helm_deps.sh
 
-      - name: generate security reports
-        shell: bash
-        run: |
-          #!/bin/bash
-          render() {
-              local chart="$1"
-              local chartname="$2"
-              local train="$3"
-              echo "Rendering helm-template for ${chartname}"
-              mkdir -p ${chart}/render
-              helm template ${chart} >> ${chart}/render/app.yaml || echo "Helm template failed..."
-          }
-          helm_sec_scan() {
-              local chart="$1"
-              local chartname="$2"
-              local train="$3"
-              echo "Scanning helm security for ${chartname}"
-              mkdir -p ${chart}/render
-              rm -rf website/docs/charts/${train}/${chartname}/helm-security.md || echo "removing old helm-security file failed..."
-              echo "# Helm Security" >> website/docs/charts/${train}/${chartname}/helm-security.md
-              echo "" >> website/docs/charts/${train}/${chartname}/helm-security.md
-              echo "## Helm-Chart" >> website/docs/charts/${train}/${chartname}/helm-security.md
-              echo "" >> website/docs/charts/${train}/${chartname}/helm-security.md
-              echo "##### Scan Results" >> website/docs/charts/${train}/${chartname}/helm-security.md
-              echo "" >> website/docs/charts/${train}/${chartname}/helm-security.md
-              trivy config --namespaces builtin.kubernetes.* -f template --template "@./templates/trivy-config.tpl" ${chart}/render >> website/docs/charts/${train}/${chartname}/helm-security.md || echo "trivy scan failed..."
-              }
-          container_sec_scan() {
-              local chart="$1"
-              local chartname="$2"
-              local train="$3"
-              echo "Scanning container security for ${chartname}"
-              mkdir -p ${chart}/render
-              rm -rf website/docs/charts/${train}/${chartname}/container-security.md || echo "removing old container-security file failed..."
-              echo "# Container Security" >> website/docs/charts/${train}/${chartname}/container-security.md
-              echo "" >> website/docs/charts/${train}/${chartname}/container-security.md
-              echo "##### Detected Containers" >> website/docs/charts/${train}/${chartname}/container-security.md
-              echo "" >> website/docs/charts/${train}/${chartname}/container-security.md
-              find ${chart}/render/ -name '*.yaml' -type f -exec cat {} \; | grep image: | sed "s/image: //g" | sed "s/\"//g" >> ${chart}/render/containers.tmp
-              cat ${chart}/render/containers.tmp >> website/docs/charts/${train}/${chartname}/container-security.md
-              echo "" >> website/docs/charts/${train}/${chartname}/container-security.md
-              echo "##### Scan Results" >> website/docs/charts/${train}/${chartname}/container-security.md
-              echo "" >> website/docs/charts/${train}/${chartname}/container-security.md
-              for container in $(cat ${chart}/render/containers.tmp | sort | uniq); do
-                if [[ "$container" == *"truecharts/alpine"* || "$container" == *"truecharts/ubuntu"* || "$container" == *"truecharts/kubectl"* ]]; then
-                  echo "Skipping ${container}, as it's a shared common container..."
-                else
-                  echo "**Container: ${container}**" >> website/docs/charts/${train}/${chartname}/container-security.md
-                  echo "" >> website/docs/charts/${train}/${chartname}/container-security.md
-                  trivy image --security-checks vuln -f template --template "@./templates/trivy-container.tpl" ${container} >> website/docs/charts/${train}/${chartname}/container-security.md || echo "trivy container scan failed..."
-                  echo "" >> website/docs/charts/${train}/${chartname}/container-security.md
-                fi
-              done
-              }
-          cleanfiles() {
-              local chart="$1"
-              local chartname="$2"
-              local train="$3"
-              echo "sanitising website output for ${chartname}..."
-              rm -rf ${chart}/render
-              sed -i 's|<br>|<br />|g' website/docs/charts/${train}/${chartname}/helm-security.md ||:
-              sed -i 's|<br>|<br />|g' website/docs/charts/${train}/${chartname}/container-security.md ||:
-              sed -i 's|<hr>|<hr />|g' website/docs/charts/${train}/${chartname}/helm-security.md ||:
-              sed -i 's|<hr>|<hr />|g' website/docs/charts/${train}/${chartname}/container-security.md ||:
-              }
-          for train in stable; do
-            echo "Processing Charts for Train: ${train}..."
-            for chart in $(ls "charts/${train}"); do
-              render "charts/${train}/${chart}" ${chart} ${train} || echo "rendering failed for ${chart}"
-             helm_sec_scan "charts/${train}/${chart}" ${chart} ${train} || echo "helm chart processing failed for ${chart}"
-              if [ ${train} == "enterprise" ]; then
-                container_sec_scan "charts/${train}/${chart}" ${chart} ${train} || echo "container processing failed for ${chart}"
-              fi
-              cleanfiles "charts/${train}/${chart}" ${chart} ${train} || echo "cleaning failed for ${chart}"
-            done
-          done
-          echo "finsihed security scan"
+#       - name: generate security reports
+#         shell: bash
+#         run: |
+#           #!/bin/bash
+#           render() {
+#               local chart="$1"
+#               local chartname="$2"
+#               local train="$3"
+#               echo "Rendering helm-template for ${chartname}"
+#               mkdir -p ${chart}/render
+#               helm template ${chart} >> ${chart}/render/app.yaml || echo "Helm template failed..."
+#           }
+#           helm_sec_scan() {
+#               local chart="$1"
+#               local chartname="$2"
+#               local train="$3"
+#               echo "Scanning helm security for ${chartname}"
+#               mkdir -p ${chart}/render
+#               rm -rf website/docs/charts/${train}/${chartname}/helm-security.md || echo "removing old helm-security file failed..."
+#               echo "# Helm Security" >> website/docs/charts/${train}/${chartname}/helm-security.md
+#               echo "" >> website/docs/charts/${train}/${chartname}/helm-security.md
+#               echo "## Helm-Chart" >> website/docs/charts/${train}/${chartname}/helm-security.md
+#               echo "" >> website/docs/charts/${train}/${chartname}/helm-security.md
+#               echo "##### Scan Results" >> website/docs/charts/${train}/${chartname}/helm-security.md
+#               echo "" >> website/docs/charts/${train}/${chartname}/helm-security.md
+#               trivy config --namespaces builtin.kubernetes.* -f template --template "@./templates/trivy-config.tpl" ${chart}/render >> website/docs/charts/${train}/${chartname}/helm-security.md || echo "trivy scan failed..."
+#               }
+#           container_sec_scan() {
+#               local chart="$1"
+#               local chartname="$2"
+#               local train="$3"
+#               echo "Scanning container security for ${chartname}"
+#               mkdir -p ${chart}/render
+#               rm -rf website/docs/charts/${train}/${chartname}/container-security.md || echo "removing old container-security file failed..."
+#               echo "# Container Security" >> website/docs/charts/${train}/${chartname}/container-security.md
+#               echo "" >> website/docs/charts/${train}/${chartname}/container-security.md
+#               echo "##### Detected Containers" >> website/docs/charts/${train}/${chartname}/container-security.md
+#               echo "" >> website/docs/charts/${train}/${chartname}/container-security.md
+#               find ${chart}/render/ -name '*.yaml' -type f -exec cat {} \; | grep image: | sed "s/image: //g" | sed "s/\"//g" >> ${chart}/render/containers.tmp
+#               cat ${chart}/render/containers.tmp >> website/docs/charts/${train}/${chartname}/container-security.md
+#               echo "" >> website/docs/charts/${train}/${chartname}/container-security.md
+#               echo "##### Scan Results" >> website/docs/charts/${train}/${chartname}/container-security.md
+#               echo "" >> website/docs/charts/${train}/${chartname}/container-security.md
+#               for container in $(cat ${chart}/render/containers.tmp | sort | uniq); do
+#                 if [[ "$container" == *"truecharts/alpine"* || "$container" == *"truecharts/ubuntu"* || "$container" == *"truecharts/kubectl"* ]]; then
+#                   echo "Skipping ${container}, as it's a shared common container..."
+#                 else
+#                   echo "**Container: ${container}**" >> website/docs/charts/${train}/${chartname}/container-security.md
+#                   echo "" >> website/docs/charts/${train}/${chartname}/container-security.md
+#                   trivy image --security-checks vuln -f template --template "@./templates/trivy-container.tpl" ${container} >> website/docs/charts/${train}/${chartname}/container-security.md || echo "trivy container scan failed..."
+#                   echo "" >> website/docs/charts/${train}/${chartname}/container-security.md
+#                 fi
+#               done
+#               }
+#           cleanfiles() {
+#               local chart="$1"
+#               local chartname="$2"
+#               local train="$3"
+#               echo "sanitising website output for ${chartname}..."
+#               rm -rf ${chart}/render
+#               sed -i 's|<br>|<br />|g' website/docs/charts/${train}/${chartname}/helm-security.md ||:
+#               sed -i 's|<br>|<br />|g' website/docs/charts/${train}/${chartname}/container-security.md ||:
+#               sed -i 's|<hr>|<hr />|g' website/docs/charts/${train}/${chartname}/helm-security.md ||:
+#               sed -i 's|<hr>|<hr />|g' website/docs/charts/${train}/${chartname}/container-security.md ||:
+#               }
+#           for train in stable; do
+#             echo "Processing Charts for Train: ${train}..."
+#             for chart in $(ls "charts/${train}"); do
+#               render "charts/${train}/${chart}" ${chart} ${train} || echo "rendering failed for ${chart}"
+#              helm_sec_scan "charts/${train}/${chart}" ${chart} ${train} || echo "helm chart processing failed for ${chart}"
+#               if [ ${train} == "enterprise" ]; then
+#                 container_sec_scan "charts/${train}/${chart}" ${chart} ${train} || echo "container processing failed for ${chart}"
+#               fi
+#               cleanfiles "charts/${train}/${chart}" ${chart} ${train} || echo "cleaning failed for ${chart}"
+#             done
+#           done
+#           echo "finsihed security scan"
 
-      - name: Commit Website Changes
-        run: |
-          cd website
-          git config user.name "cyr-ius"
-          git config user.email "cyr-ius@ipocus.net"
-          git pull
-          git add --all
-          git commit -sm "Commit released docs for TrueCharts" || exit 0
-          git push
+#       - name: Commit Website Changes
+#         run: |
+#           cd website
+#           git config user.name "cyr-ius"
+#           git config user.email "cyr-ius@ipocus.net"
+#           git pull
+#           git add --all
+#           git commit -sm "Commit released docs for TrueCharts" || exit 0
+#           git push
 
   lock-threads:
     runs-on: ubuntu-latest
