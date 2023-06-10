@@ -262,8 +262,8 @@ export -f validate_catalog
 upload_catalog() {
     echo "Uploading Catalog..."
     cd catalog
-    git config user.name "TrueCharts-Bot"
-    git config user.email "bot@truecharts.org"
+    git config user.name "cyr-ius"
+    git config user.email "cyr-ius@ipocus.net"
     git add --all
     git commit -sm "Commit new Chart releases for TrueCharts" || exit 0
     git push
