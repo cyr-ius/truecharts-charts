@@ -113,29 +113,29 @@ jobs:
           OUTPUT_JSON4=$((echo $OUTPUT_JSON | jq -r -c '.[151:200]'; echo $OUTPUT_JSON | jq -r -c '.[451:500]'; echo $OUTPUT_JSON | jq -r -c '.[751:800]'; echo $OUTPUT_JSON | jq -r -c '.[1051:1100]'; echo $OUTPUT_JSON | jq -r -c '.[1351:1400]') | jq -s add)
           OUTPUT_JSON5=$((echo $OUTPUT_JSON | jq -r -c '.[201:250]'; echo $OUTPUT_JSON | jq -r -c '.[501:550]'; echo $OUTPUT_JSON | jq -r -c '.[801:850]'; echo $OUTPUT_JSON | jq -r -c '.[1101:1150]'; echo $OUTPUT_JSON | jq -r -c '.[1401:1450]') | jq -s add)
           OUTPUT_JSON6=$((echo $OUTPUT_JSON | jq -r -c '.[251:300]'; echo $OUTPUT_JSON | jq -r -c '.[551:600]'; echo $OUTPUT_JSON | jq -r -c '.[851:900]'; echo $OUTPUT_JSON | jq -r -c '.[1151:1200]'; echo $OUTPUT_JSON | jq -r -c '.[1451:1500]') | jq -s add)
-          echo ::set-output name=charts1::${OUTPUT_JSON1}
-          echo ::set-output name=charts2::${OUTPUT_JSON2}
-          echo ::set-output name=charts3::${OUTPUT_JSON3}
-          echo ::set-output name=charts4::${OUTPUT_JSON4}
-          echo ::set-output name=charts5::${OUTPUT_JSON5}
-          echo ::set-output name=charts6::${OUTPUT_JSON6}
+          echo charts1::${OUTPUT_JSON1} >> $GITHUB_OUTPUT
+          echo charts2::${OUTPUT_JSON2} >> $GITHUB_OUTPUT
+          echo charts3::${OUTPUT_JSON3} >> $GITHUB_OUTPUT
+          echo charts4::${OUTPUT_JSON4} >> $GITHUB_OUTPUT
+          echo charts5::${OUTPUT_JSON5} >> $GITHUB_OUTPUT
+          echo charts6::${OUTPUT_JSON6}>> $GITHUB_OUTPUT
           if [[ $(echo ${OUTPUT_JSON1} | jq -c '. | length') -gt 0 ]]; then
-            echo "::set-output name=detected1::true"
+            echo "detected1::true" >> $GITHUB_OUTPUT
           fi
           if [[ $(echo ${OUTPUT_JSON2} | jq -c '. | length') -gt 0 ]]; then
-            echo "::set-output name=detected2::true"
+            echo "detected2::true" >> $GITHUB_OUTPUT
           fi
           if [[ $(echo ${OUTPUT_JSON3} | jq -c '. | length') -gt 0 ]]; then
-            echo "::set-output name=detected3::true"
+            echo "detected3::true" >> $GITHUB_OUTPUT
           fi
           if [[ $(echo ${OUTPUT_JSON4} | jq -c '. | length') -gt 0 ]]; then
-            echo "::set-output name=detected4::true"
+            echo "detected4::true" >> $GITHUB_OUTPUT
           fi
           if [[ $(echo ${OUTPUT_JSON5} | jq -c '. | length') -gt 0 ]]; then
-            echo "::set-output name=detected5::true"
+            echo "detected5::true" >> $GITHUB_OUTPUT
           fi
           if [[ $(echo ${OUTPUT_JSON6} | jq -c '. | length') -gt 0 ]]; then
-            echo "::set-output name=detected6::true"
+            echo "detected6::true" >> $GITHUB_OUTPUT
           fi
 
   lint-charts1:
