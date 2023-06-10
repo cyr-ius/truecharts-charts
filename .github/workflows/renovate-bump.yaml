@@ -73,11 +73,11 @@ jobs:
               echo "Attempting to update sources of ${chartname}..."
               echo "Using go-yq verion: <$(go-yq -V)>"
               # Get all sources (except truecharts)
-              curr_sources=$(go-yq '.sources[] | select(. != "https://github.com/truecharts*")' "${chart}/Chart.yaml")
+              curr_sources=$(go-yq '.sources[] | select(. != "https://github.com/cyr-ius/truenas*")' "${chart}/Chart.yaml")
               # Empty sources list in-place
               go-yq -i 'del(.sources.[])' "${chart}/Chart.yaml"
               # Add truechart source
-              tcsource="https://github.com/cyr-ius/truenas-charts/tree/master/charts/$train/$chartname" go-yq -i '.sources += env(tcsource)' "${chart}/Chart.yaml"
+              tcsource="https://github.com/cyr-ius/truenas-charts/tree/my-refs/charts/$train/$chartname" go-yq -i '.sources += env(tcsource)' "${chart}/Chart.yaml"
               # Add the rest of the sources
               while IFS= read -r line; do
                 src="$line" go-yq -i '.sources += env(src)' "${chart}/Chart.yaml" || echo "src set error"
@@ -96,20 +96,12 @@ jobs:
               return
             elif test -f "./charts/stable/${chart}/Chart.yaml"; then
               train="stable"
-            elif test -f "./charts/incubator/${chart}/Chart.yaml"; then
-              train="incubator"
             elif test -f "./charts/SCALE/${chart}/Chart.yaml"; then
               train="SCALE"
             elif test -f "./charts/library/${chart}/Chart.yaml"; then
               train="library"
             elif test -f "./charts/dependency/${chart}/Chart.yaml"; then
               train="dependency"
-            elif test -f "./charts/core/${chart}/Chart.yaml"; then
-              train="core"
-            elif test -f "./charts/games/${chart}/Chart.yaml"; then
-              train="games"
-            elif test -f "./charts/enterprise/${chart}/Chart.yaml"; then
-              train="enterprise"
             else
               train="incubator"
             fi
