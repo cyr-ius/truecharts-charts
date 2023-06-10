@@ -325,7 +325,7 @@ jobs:
               sed -i 's|<hr>|<hr />|g' website/docs/charts/${train}/${chartname}/helm-security.md ||:
               sed -i 's|<hr>|<hr />|g' website/docs/charts/${train}/${chartname}/container-security.md ||:
               }
-          for train in enterprise stable incubator dependency; do
+          for train in stable; do
             echo "Processing Charts for Train: ${train}..."
             for chart in $(ls "charts/${train}"); do
               render "charts/${train}/${chart}" ${chart} ${train} || echo "rendering failed for ${chart}"
