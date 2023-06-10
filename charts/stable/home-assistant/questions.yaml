@@ -20,7 +20,7 @@ questions:
           label: "Container Tag"
           schema:
             type: string
-            default: "2023.5.4"
+            default: "2023.6.1"
             required: true
         - variable: pullPolicy
           label: "Container Pullpolicy"
