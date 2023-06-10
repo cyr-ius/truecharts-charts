@@ -100,8 +100,7 @@ jobs:
               go-yq '
                 .sources[] |
                 select(
-                  . != "https://github.com/truecharts*" and
-                  . != "https://github.com/cyr-ius/truecharts*" and
+                  . != "https://github.com/cyr-ius/truenas*" and
                   . != "https://ghcr*" and
                   . != "docker.io*" and
                   . != "https://docker.io*" and
