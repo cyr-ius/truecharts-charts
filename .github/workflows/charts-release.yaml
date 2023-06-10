@@ -222,7 +222,7 @@ jobs:
 
       - name: Commit Catalog
         if: |
-          steps.collect-changes.outputs.changesDetected == 'true'
+          steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
         run: |
           cd catalog
           git config user.name "cyr-ius"
