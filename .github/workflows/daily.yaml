@@ -31,7 +31,7 @@ jobs:
       - name: generate readme.md
         shell: bash
         run: |
-          for train in stable SCALE develop non-free deprecated dependency; do
+          for train in stable SCALE non-free deprecated dependency; do
             for chart in charts/${train}/*; do
               if [ -d "${chart}" ]; then
                 echo "Generating readme.md for ${train}/${chart}"
@@ -44,7 +44,7 @@ jobs:
       - name: generate HelmIgnore
         shell: bash
         run: |
-          for train in stable SCALE develop non-free deprecated dependency; do
+          for train in stable SCALE non-free deprecated dependency; do
             for chart in charts/${train}/*; do
               if [ -d "${chart}" ]; then
                 echo "Attempting to sync HelmIgnore file for: ${chartname}"
