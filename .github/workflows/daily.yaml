@@ -196,7 +196,7 @@ jobs:
           }
           export -f sync_tag
 
-          for train in enterprise stable incubator dependency; do
+          for train in stable; do
             echo "Correcting Chart.yaml for Train: ${train}..."
             for chart in $(ls "charts/${train}"); do
               echo "Correcting Chart.yaml for Chart: ${chart}..."
