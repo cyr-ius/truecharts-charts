@@ -69,7 +69,7 @@ jobs:
         run: echo "$(git show -s --format=%s)"
       - name: Print head git commit message
         id: get_head_commit_message
-        run: echo "headCommitMsg::$(git show -s --format=%s)" >> $GITHUB_OUTPUT
+        run: echo "headCommitMsg=$(git show -s --format=%s)" >> $GITHUB_OUTPUT
 
   automerge-and-approve:
     needs:
