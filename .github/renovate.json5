@@ -12,7 +12,7 @@
   "timezone":"Europe/Amsterdam",
   "pinDigests": true,
   "automerge": false,
-  "gitAuthor": "TrueCharts-Admin <bot@truecharts.org>",
+  "gitAuthor": "TrueCharts-Admin <bot@ipocus.net>",
   "helm-values": {
     "fileMatch": ["charts/.+/.*values\\.yaml$", "charts/.+/SCALE/.*_values\\.yaml$"]
   },
