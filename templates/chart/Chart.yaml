@@ -6,21 +6,21 @@ appVersion: 1.0.0
 description: CHARTNAME App for TrueNAS SCALE
 type: application
 deprecated: false
-home: https://github.com/truecharts/charts/tree/master/charts/stable/CHARTNAME
-icon: https://raw.githubusercontent.com/truecharts/charts/master/stable/CHARTNAME/icon.png?raw=true
+home: https://github.com/cyr-ius/truenas-charts/tree/my-refs/charts/stable/CHARTNAME
+icon: https://raw.githubusercontent.com/cyr-ius/truenas-charts/my-refs/stable/CHARTNAME/icon.png?raw=true
 keywords:
   - CHARTNAME
 sources:
-  - https://github.com/truecharts/charts/tree/master/charts/CHARTNAME
+  - https://github.com/cyr-ius/truenas-charts/tree/my-refs/charts/CHARTNAME
 dependencies:
 - name: common
   repository: https://library-charts.truecharts.org
   version: 12.14.2
     # condition:
 maintainers:
-- email: info@truecharts.org
-  name: TrueCharts
-  url: https://truecharts.org
+- email: cyr-ius@ipocus.net
+  name: My Catalaog
+  url: https://github/com/cyr-ius/
 annotations:
   truecharts.org/catagories: |
     - media

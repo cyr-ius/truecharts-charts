@@ -202,7 +202,7 @@ jobs:
           fetch-depth: 1
           repository: cyr-ius/truenas-catalog
           token: ${{ secrets.BOT_TOKEN }}
-          ref: master
+          ref: staging
           path: catalog
 
       - name: build catalog
@@ -218,7 +218,7 @@ jobs:
           pip install yq
           parthreads=$(($(nproc) * 2))
           parallel -j ${parthreads} .github/scripts/build-catalog.sh '2>&1' ::: ${CHARTS[@]}
-       #~ rm -rf website
+        #~ rm -rf website
 
       - name: Commit Catalog
         if: |
