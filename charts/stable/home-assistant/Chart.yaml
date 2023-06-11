@@ -15,8 +15,8 @@ keywords:
 kubeVersion: ">=1.16.0-0"
 maintainers:
   - email: cyr-ius@ipocus.net
-    url: https://github.com/cyr-ius
     name: My Catalog
+    url: https://github.com/cyr-ius/
 name: home-assistant
 sources:
   - https://github.com/cyr-ius/truenas-charts/tree/my-refs/charts/stable/home-assistant
