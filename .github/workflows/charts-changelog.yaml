@@ -83,7 +83,7 @@ jobs:
         id: save-commit-hash
         run: |
           if [ "${{ steps.create-commit.outputs.changes_detected || 'unknown' }}" == "true" ]; then
-            echo 'commit_hash::${{ steps.create-commit.outputs.commit_hash }}' >> $GITHUB_OUTPUT
+            echo 'commit_hash=${{ steps.create-commit.outputs.commit_hash }}' >> $GITHUB_OUTPUT
           else
-            echo "commit_hash::${GITHUB_SHA}" >> $GITHUB_OUTPUT
+            echo "commit_hash=${GITHUB_SHA}" >> $GITHUB_OUTPUT
           fi
