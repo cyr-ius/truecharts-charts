@@ -2,7 +2,7 @@ style: github
 template: CHANGELOG.tpl.md
 info:
   title: CHANGELOG
-  repository_url: https://github.com/truecharts/charts
+  repository_url: https://github.com/cyr-ius/truenas-charts
 options:
   commits:
     # filters:
