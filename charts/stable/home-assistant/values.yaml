@@ -1,7 +1,7 @@
 image:
   repository: tccr.io/truecharts/home-assistant
   pullPolicy: IfNotPresent
-  tag: v2023.9.2@sha256:22de721b0601e49626fc0b953a6f95c910e2e1d36f0cc6ad39d583a43dd172f3
+  tag: v2023.10.0@sha256:d76e3dfee1c38b2ffafa170dc995d2e4a8ebb4f1c2b1b8efed26073b98c0e505
 service:
   main:
     ports:
