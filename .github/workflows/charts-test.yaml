@@ -132,7 +132,7 @@ jobs:
           python-version: "3.11"
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@cb49023b9227b1097e5eddd8824f48bdea11b1aa # v2.5.0
+        uses: helm/chart-testing-action@b43128a8b25298e1e7b043b78ea6613844e079b1 # v2.6.0
 
       - name: Create k3d cluster
         uses: nolar/setup-k3d-k3s@v1
@@ -192,7 +192,7 @@ jobs:
           python-version: "3.11"
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@cb49023b9227b1097e5eddd8824f48bdea11b1aa # v2.5.0
+        uses: helm/chart-testing-action@b43128a8b25298e1e7b043b78ea6613844e079b1 # v2.6.0
 
       - name: Create k3d cluster
         uses: nolar/setup-k3d-k3s@v1
@@ -250,7 +250,7 @@ jobs:
           python-version: "3.11"
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@cb49023b9227b1097e5eddd8824f48bdea11b1aa # v2.5.0
+        uses: helm/chart-testing-action@b43128a8b25298e1e7b043b78ea6613844e079b1 # v2.6.0
 
       - name: Create k3d cluster
         uses: nolar/setup-k3d-k3s@v1
@@ -308,7 +308,7 @@ jobs:
           python-version: "3.11"
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@cb49023b9227b1097e5eddd8824f48bdea11b1aa # v2.5.0
+        uses: helm/chart-testing-action@b43128a8b25298e1e7b043b78ea6613844e079b1 # v2.6.0
 
       - name: Create k3d cluster
         uses: nolar/setup-k3d-k3s@v1
@@ -366,7 +366,7 @@ jobs:
           python-version: "3.11"
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@cb49023b9227b1097e5eddd8824f48bdea11b1aa # v2.5.0
+        uses: helm/chart-testing-action@b43128a8b25298e1e7b043b78ea6613844e079b1 # v2.6.0
 
       - name: Create k3d cluster
         uses: nolar/setup-k3d-k3s@v1
@@ -424,7 +424,7 @@ jobs:
           python-version: "3.11"
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@cb49023b9227b1097e5eddd8824f48bdea11b1aa # v2.5.0
+        uses: helm/chart-testing-action@b43128a8b25298e1e7b043b78ea6613844e079b1 # v2.6.0
 
       - name: Create k3d cluster
         uses: nolar/setup-k3d-k3s@v1
