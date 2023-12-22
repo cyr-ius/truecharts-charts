@@ -1,0 +1,89 @@
+name: "Pull Request: Validate"
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.head_ref }}-pr-validate
+  # cancel-in-progress: true
+
+jobs:
+  pr-changes:
+    name: Collect PR changes
+    runs-on: ubuntu-latest
+    outputs:
+      addedOrModified: ${{ steps.collect-changes.outputs.changesDetected }}
+      addedOrModifiedFiles: ${{ steps.collect-changes.outputs.addedOrModifiedFiles }}
+      addedOrModifiedCharts: ${{ steps.collect-changes.outputs.addedOrModifiedCharts }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - name: Collect changes
+        id: collect-changes
+        uses: ./.github/actions/collect-changes
+
+  charts-lint:
+    uses: ./.github/workflows/charts-lint.yaml
+    needs:
+      - pr-changes
+    with:
+      checkoutCommit: ${{ needs.charts-changelog.outputs.commitHash }}
+      chartChangesDetected: ${{ needs.pr-changes.outputs.addedOrModified }}
+      modifiedFiles: ${{ needs.pr-changes.outputs.addedOrModifiedFiles }}
+      modifiedCharts: ${{ needs.pr-changes.outputs.addedOrModifiedCharts }}
+  charts-test:
+    uses: ./.github/workflows/charts-test.yaml
+    needs:
+      - pr-changes
+      - charts-lint
+    with:
+      checkoutCommit: ${{ needs.charts-changelog.outputs.commitHash }}
+      chartChangesDetected: ${{ needs.pr-changes.outputs.addedOrModified }}
+      modifiedCharts: ${{ needs.pr-changes.outputs.addedOrModifiedCharts }}
+
+  catalog-test:
+    uses: ./.github/workflows/catalog-test.yaml
+    needs:
+      - pr-changes
+    with:
+      checkoutCommit: ${{ needs.charts-changelog.outputs.commitHash }}
+      chartChangesDetected: ${{ needs.pr-changes.outputs.addedOrModified }}
+
+  print_head_msg:
+    name: print commit message
+    runs-on: ubuntu-latest
+    outputs:
+      head-commit-message: ${{ steps.get_head_commit_message.outputs.headCommitMsg }}
+    steps:
+      - name: Get repo
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: verbose head git commit message
+        run: echo "$(git show -s --format=%s)"
+      - name: Print head git commit message
+        id: get_head_commit_message
+        run: echo "::set-output name=headCommitMsg::$(git show -s --format=%s)"
+
+  automerge-and-approve:
+    needs:
+      - pr-changes
+      - catalog-test
+      - charts-test
+      - charts-lint
+      - print_head_msg
+    if: ${{ contains( needs.print_head_msg.outputs.head-commit-message, 'By Renovate' ) }}
+    name: Automerge and Approve build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: hmarr/auto-approve-action@v3
+        with:
+          github-token: "${{ secrets.PERS_PAT }}"
+      - name: automerge
+        uses: pascalgn/automerge-action@22948e0bc22f0aa673800da838595a3e7347e584 # v0.15.6
+        env:
+          GITHUB_TOKEN: "${{ secrets.BOT_TOKEN }}"
+          UPDATE_RETRIES: 12
+          UPDATE_RETRY_SLEEP: 60000
+          MERGE_METHOD: squash
