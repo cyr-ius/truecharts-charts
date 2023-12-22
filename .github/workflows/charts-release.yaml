@@ -22,13 +22,13 @@ jobs:
           token: ${{ secrets.BOT_TOKEN }}
           fetch-depth: 1
 
-      - name: Checkout Helm-Staging
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
-        with:
-          fetch-depth: 1
-          repository: truecharts/helm-staging
-          token: ${{ secrets.BOT_TOKEN }}
-          path: helm
+#      - name: Checkout Helm-Staging
+#        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+#        with:
+#          fetch-depth: 1
+#          repository: truecharts/helm-staging
+#          token: ${{ secrets.BOT_TOKEN }}
+#          path: helm
 
       - name: Fix Pre-Commit issues
         shell: bash
@@ -44,15 +44,15 @@ jobs:
           mkdir helm/charts
           cp -rf charts helm
 
-      - name: Commit Helm Changes
-        run: |
-          cd helm
-          git config user.name "cyr-ius"
-          git config user.email "bot@truecharts.org"
-          git add --all
-          git commit -sm "Commit released Helm Charts for TrueCharts" || exit 0
-          git push
-          cd -
+#      - name: Commit Helm Changes
+#        run: |
+#          cd helm
+#          git config user.name "cyr-ius"
+#          git config user.email "bot@tipocus.net"
+#          git add --all
+#          git commit -sm "Commit released Helm Charts for TrueCharts" || exit 0
+#          git push
+#          cd -
 
   release-scale:
     runs-on: ubuntu-latest
@@ -127,15 +127,15 @@ jobs:
           # Fix sh files to always be executable
           find . -name '*.sh' | xargs chmod +x
 
-      - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
-        if: |
-          steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
-        with:
-          fetch-depth: 1
-          repository: truecharts/website
-          token: ${{ secrets.BOT_TOKEN }}
-          path: website
+#      - name: Checkout
+#        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+#        if: |
+#          steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
+#        with:
+#          fetch-depth: 1
+#          repository: truecharts/website
+#          token: ${{ secrets.BOT_TOKEN }}
+#          path: website
 
       - name: Checkout Catalog
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
@@ -158,7 +158,7 @@ jobs:
           pip install yq
           parthreads=$(($(nproc) * 2))
           parallel -j ${parthreads} .github/scripts/build-catalog.sh '2>&1' ::: ${CHARTS[@]}
-          rm -rf website
+#          rm -rf website
 
       - name: Commit Catalog
         if: |
@@ -166,7 +166,7 @@ jobs:
         run: |
           cd catalog
           git config user.name "cyr-ius"
-          git config user.email "bot@truecharts.org"
+          git config user.email "bot@ipocus.net"
           git add --all
           git commit -sm "Commit new Chart releases for TrueCharts" || exit 0
           git push
@@ -179,7 +179,7 @@ jobs:
         shell: bash
         run: |
           git config user.name "cyr-ius"
-          git config user.email "bot@truecharts.org"
+          git config user.email "bot@ipocus.net"
 
         # Optional step if GPG signing is used
       - name: Prepare GPG key
