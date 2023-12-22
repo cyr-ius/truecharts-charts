@@ -1,0 +1,234 @@
+name: "Charts: Release"
+
+concurrency: helm-release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - "charts/**"
+
+jobs:
+  release-helm:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/truecharts/devcontainer:3.1.10@sha256:c239addf725eb5cedf79517f8089fdafdc32b5270d1893ee87ae6e511b9bcae3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        with:
+          token: ${{ secrets.BOT_TOKEN }}
+          fetch-depth: 1
+
+      - name: Checkout Helm-Staging
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        with:
+          fetch-depth: 1
+          repository: truecharts/helm-staging
+          token: ${{ secrets.BOT_TOKEN }}
+          path: helm
+
+      - name: Fix Pre-Commit issues
+        shell: bash
+        run: |
+          echo "Running pre-commit test-and-cleanup..."
+          pre-commit run --all ||:
+          # Fix sh files to always be executable
+          find . -name '*.sh' | xargs chmod +x
+
+      - name: Commit Helm Changes
+        run: |
+          rm -rf helm/charts
+          mkdir helm/charts
+          cp -rf charts helm
+
+      - name: Commit Helm Changes
+        run: |
+          cd helm
+          git config user.name "cyr-ius"
+          git config user.email "bot@truecharts.org"
+          git add --all
+          git commit -sm "Commit released Helm Charts for TrueCharts" || exit 0
+          git push
+          cd -
+
+  release-scale:
+    runs-on: ubuntu-latest
+    outputs:
+      ref: ${{ steps.save-commit-hash.outputs.commit_hash }}
+    container:
+      image: ghcr.io/truecharts/devcontainer:3.1.10@sha256:c239addf725eb5cedf79517f8089fdafdc32b5270d1893ee87ae6e511b9bcae3
+    steps:
+      - name: Install Kubernetes tools
+        uses: yokawasa/action-setup-kube-tools@af4ebb1af1efd30c5bd84a2e9773355ad6362a33 # v0.9.3
+        with:
+          setup-tools: |
+            helmv3
+          helm: "3.13.2"
+
+      - name: Prep Helm
+        run: |
+          helm repo add truecharts https://charts.truecharts.org
+          helm repo add truecharts-library https://library-charts.truecharts.org
+          helm repo add truecharts-deps https://deps.truecharts.org
+          helm repo add jetstack https://charts.jetstack.io
+          helm repo add vmwaretanzu https://vmware-tanzu.github.io/helm-charts
+          helm repo add cnpg https://cloudnative-pg.github.io/charts
+          helm repo add metallb https://metallb.github.io/metallb
+          helm repo update
+
+      # Optional step if GPG signing is used
+      - name: Prepare GPG key
+        shell: bash
+        run: |
+          gpg_dir=.cr-gpg
+          mkdir -p "$gpg_dir"
+          keyring="$gpg_dir/secring.gpg"
+          base64 -d <<< "$GPG_KEYRING_BASE64" > "$keyring"
+          passphrase_file="$gpg_dir/passphrase"
+          echo "$GPG_PASSPHRASE" > "$passphrase_file"
+          echo "CR_PASSPHRASE_FILE=$passphrase_file" >> "$GITHUB_ENV"
+          echo "CR_KEYRING=$keyring" >> "$GITHUB_ENV"
+        env:
+          GPG_KEYRING_BASE64: "${{ secrets.GPG_KEYRING_BASE64 }}"
+          GPG_PASSPHRASE: "${{ secrets.GPG_PASSPHRASE }}"
+
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        with:
+          token: ${{ secrets.BOT_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setting repo parent dir as safe safe.directory
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Collect changes
+        id: collect-changes
+        uses: ./.github/actions/collect-changes
+
+      - name: Generate Changelog
+        shell: bash
+        if: |
+          steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
+        run: |
+          CHARTS=(${{ steps.collect-changes.outputs.modifiedChartsAfterTag }})
+          parthreads=$(($(nproc) * 2))
+          parallel -j ${parthreads} .github/scripts/changelog.sh '2>&1' ::: ${CHARTS[@]}
+
+      - name: Fix Pre-Commit issues
+        shell: bash
+        if: |
+          steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
+        run: |
+          echo "Running pre-commit test-and-cleanup..."
+          pre-commit run --all ||:
+          # Fix sh files to always be executable
+          find . -name '*.sh' | xargs chmod +x
+
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        if: |
+          steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
+        with:
+          fetch-depth: 1
+          repository: truecharts/website
+          token: ${{ secrets.BOT_TOKEN }}
+          path: website
+
+      - name: Checkout Catalog
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        if: |
+          steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
+        with:
+          fetch-depth: 1
+          repository: cyr-ius/truenas-catalog
+          token: ${{ secrets.BOT_TOKEN }}
+          ref: staging
+          path: catalog
+
+      - name: build catalog
+        shell: bash
+        if: |
+          steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
+        run: |
+          CHARTS=(${{ steps.collect-changes.outputs.modifiedChartsAfterTag }})
+          ./charttool deps
+          pip install yq
+          parthreads=$(($(nproc) * 2))
+          parallel -j ${parthreads} .github/scripts/build-catalog.sh '2>&1' ::: ${CHARTS[@]}
+          rm -rf website
+
+      - name: Commit Catalog
+        if: |
+          steps.collect-changes.outputs.changesDetected == 'true'
+        run: |
+          cd catalog
+          git config user.name "cyr-ius"
+          git config user.email "bot@truecharts.org"
+          git add --all
+          git commit -sm "Commit new Chart releases for TrueCharts" || exit 0
+          git push
+          cd -
+          rm -rf catalog
+
+      - name: set git author
+        if: |
+          steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
+        shell: bash
+        run: |
+          git config user.name "cyr-ius"
+          git config user.email "bot@truecharts.org"
+
+        # Optional step if GPG signing is used
+      - name: Prepare GPG key
+        shell: bash
+        run: |
+          gpg_dir=.cr-gpg
+          mkdir -p "$gpg_dir"
+          keyring="$gpg_dir/secring.gpg"
+          base64 -d <<< "$GPG_KEYRING_BASE64" > "$keyring"
+          passphrase_file="$gpg_dir/passphrase"
+          echo "$GPG_PASSPHRASE" > "$passphrase_file"
+          echo "CR_PASSPHRASE_FILE=$passphrase_file" >> "$GITHUB_ENV"
+          echo "CR_KEYRING=$keyring" >> "$GITHUB_ENV"
+        env:
+          GPG_KEYRING_BASE64: "${{ secrets.GPG_KEYRING_BASE64 }}"
+          GPG_PASSPHRASE: "${{ secrets.GPG_PASSPHRASE }}"
+
+      - name: Run chart-releaser for dependency apps
+        uses: helm/chart-releaser-action@a917fd15b20e8b64b94d9158ad54cd6345335584 # v1.6.0
+        if: |
+          steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
+        with:
+          charts_dir: charts/dependency
+          charts_repo_url: https://deps.truecharts.org
+          config: cr.yaml
+        env:
+          CR_TOKEN: "${{ secrets.BOT_TOKEN }}"
+          CR_SKIP_EXISTING: "true"
+
+      - name: Tag App Releases
+        if: |
+          steps.collect-changes.outputs.changesDetectedAfterTag == 'true'
+        shell: bash
+        run: |
+          #!/bin/bash
+          CHARTS=(${{ steps.collect-changes.outputs.modifiedChartsAfterTag }})
+          echo "Removing Chart Docs prior to regeneration..."
+          mkdir -p website/static/img/hotlink-ok/chart-icons || echo "chart-icons path already exists, continuing..."
+          for i in "${CHARTS[@]}"
+          do
+              IFS='/' read -r -a chart_parts <<< "$i"
+              if [ -f "charts/${chart_parts[0]}"/"${chart_parts[1]}/Chart.yaml" ]; then
+                train=${chart_parts[0]}
+                chart=${chart_parts[1]}
+                if [ "${train}" != "dependency" ]; then
+                  echo "creating tag for ${chart}"
+                  version=$(cat charts/${train}/${chart}/Chart.yaml | grep '^version: ' | awk -F" " '{ print $2 }' | head -1)
+                  git tag ${chart}-${version} || echo "tag failed for ${chart}-${version}"
+                fi
+              fi
+          done
+          git push --tags
