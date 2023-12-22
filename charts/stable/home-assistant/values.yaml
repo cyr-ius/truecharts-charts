@@ -145,11 +145,9 @@ cnpg:
     enabled: true
     user: home-assistant
     database: home-assistant
-
 portal:
   open:
     enabled: true
-
 securityContext:
   container:
     readOnlyRootFilesystem: false
