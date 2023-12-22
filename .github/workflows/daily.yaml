@@ -49,7 +49,6 @@ jobs:
               if [ -d "${chart}" ]; then
                 echo "Attempting to sync HelmIgnore file for: ${chartname}"
                 rm -rf ${chart}/.helmignore
-                cp templates/chart/.helmignore ${chart}/
               fi
             done
           done
