@@ -1,0 +1,145 @@
+name: "Charts: Lint"
+
+on:
+  workflow_call:
+    inputs:
+      checkoutCommit:
+        required: true
+        type: string
+      chartChangesDetected:
+        required: true
+        type: string
+      modifiedFiles:
+        required: true
+        type: string
+      modifiedCharts:
+        required: true
+        type: string
+
+jobs:
+  lint-and-verify:
+    name: Lint Charts and Verify Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout [master]
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        with:
+          fetch-depth: 1
+          ref: master
+
+      - name: Checkout [commit]
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        with:
+          fetch-depth: 1
+          ref: ${{ inputs.checkoutCommit }}
+
+      - name: Setting repo parent dir as safe safe.directory
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Install go-yq
+        run: |
+          mkdir -p $HOME/.local/bin
+          wget https://github.com/mikefarah/yq/releases/download/v4.26.1/yq_linux_amd64 -O $HOME/.local/bin/go-yq && \
+          chmod +x $HOME/.local/bin/go-yq
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Install pre-commit, yamale and yamllint
+        run: |
+          pip3 install --no-cache-dir pre-commit yamale yamllint
+
+      - name: Install Helm
+        uses: azure/setup-helm@5119fcb9089d432beecbf79bb2c7915207344b78 # v3
+        with:
+          version: v3.13.2
+
+      - name: Prep Helm
+        run: |
+          helm repo add truecharts https://charts.truecharts.org
+          helm repo add truecharts-deps https://deps.truecharts.org
+          helm repo add truecharts-library https://library-charts.truecharts.org
+          helm repo add jetstack https://charts.jetstack.io
+          helm repo add vmwaretanzu https://vmware-tanzu.github.io/helm-charts
+          helm repo add cnpg https://cloudnative-pg.github.io/charts
+          helm repo add metallb https://metallb.github.io/metallb
+          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm repo add  openebs https://openebs.github.io/charts
+          helm repo add  csi-driver-smb https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
+          helm repo add  csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+          helm repo update
+
+      - name: Collect changes (branch-based)
+        id: list-changed
+        if: inputs.chartChangesDetected == 'true'
+        shell: bash
+        run: |
+          CHARTS="${{ inputs.modifiedCharts }}"
+          echo "Modified Charts: ${CHARTS}"
+
+          EXCLUDED_JSON=$(go-yq eval -o=json '.excluded-charts // []' .github/ct-lint.yaml)
+          CHARTS_JSON=$(echo "${CHARTS}" | jq --raw-input '.' | jq --compact-output --slurp '.')
+          OUTPUT_JSON=$(echo "{\"excluded\": ${EXCLUDED_JSON}, \"all\": ${CHARTS_JSON}}" | jq --compact-output '.all-.excluded')
+
+          echo CHANGED_CHARTS=${OUTPUT_JSON} >> "$GITHUB_OUTPUT"
+          if [[ $(echo ${OUTPUT_JSON} | jq --compact-output '. | length') -gt 0 ]]; then
+            echo "detected=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Test and Fix Pre-Commit Issues
+        shell: bash
+        # TODO: Only run pre-commit on changed files
+        # TODO: Commit fixes
+        if: inputs.chartChangesDetected == 'true'
+        run: |
+          echo "Running pre-commit test-and-cleanup..."
+          # Fix sh files to always be executable
+          find . -name '*.sh' | xargs chmod +x
+          pre-commit run --all || pre-commit run --all
+
+      - name: Fetch and Verify dependencies
+        shell: bash
+        if: steps.list-changed.outputs.detected == 'true'
+        env:
+          charts_path: "./"
+        run: |
+          CHANGED=$(echo '${{ steps.list-changed.outputs.CHANGED_CHARTS }}' | jq --raw-output '.[]')
+          ./charttool deps ${CHANGED}
+
+      - name: Run Chart Linting
+        continue-on-error: true
+        id: lint
+        if: steps.list-changed.outputs.detected == 'true'
+        env:
+          result_file: /tmp/lint_result.txt
+        run: |
+          CHANGED=$(echo '${{ steps.list-changed.outputs.CHANGED_CHARTS }}' | jq --raw-output '.[]')
+          # If the github.base_ref is empty (eg it runs outside of a PR) it fails back to origin/master
+          .github/scripts/tc-lint.sh '${{ steps.list-changed.outputs.CHANGED_CHARTS }}' "origin/${{ github.base_ref }}"
+
+      - name: Create/Update comment
+        if: steps.list-changed.outputs.detected == 'true'
+        continue-on-error: true
+        uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308 # v2
+        with:
+          filePath: /tmp/lint_result.txt
+          comment_tag: lint_results
+          mode: recreate
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Lint Result
+        if: steps.list-changed.outputs.detected == 'true'
+        shell: bash
+        run: |
+          if [ "${{ steps.lint.outcome }}" != "success" ]; then
+            echo "❌ Linting failed ❌"
+            echo '###############################################################'
+            echo '## 👀 Expand [Run Chart Linting] step to view the results 👀 ##'
+            echo '###############################################################'
+            exit 1
+          fi
+
+      - uses: vishnudxb/cancel-workflow@c3c77eb4383ba7d023e6614a07d94fe990501ac6 # tag=v1.2
+        if: failure()
+        with:
+          repo: cyr-ius/truenas-chart
+          workflow_id: ${{ github.run_id }}
+          access_token: ${{ github.token }}
