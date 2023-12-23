@@ -9,7 +9,7 @@
   "commitMessageSuffix": "",
   "rebaseWhen": "conflicted",
   "prConcurrentLimit": 150,
-  "timezone":"Europe/Amsterdam",
+  "timezone":"Europe/Paris",
   "pinDigests": true,
   "automerge": false,
   "gitAuthor": "TrueCharts-Admin <bot@ipocus.net>",
