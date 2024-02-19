@@ -1,12 +1,19 @@
 kubeVersion: ">=1.16.0-0"
 apiVersion: v2
 name: clusterissuer
-version: 1.0.2
+version: 1.0.3
 appVersion: 2024.2.19
 description: Certificate management for Kubernetes
 home: https://truecharts.org/charts/enterprise/clusterissuer
 icon: https://truecharts.org/img/hotlink-ok/chart-icons/clusterissuer.png
 deprecated: false
+sources:
+  - https://github.com/truecharts/charts/tree/master/charts/enterprise/clusterissuer
+  - https://cert-manager.io/
+maintainers:
+  - email: cyr-ius@ipocus.net
+    name: My Catalog
+    url: https://github.com/cyr-ius/
 keywords:
   - cert-manager
   - certificates
@@ -17,20 +24,12 @@ dependencies:
   - name: cert-manager-webhook-pdns
     version: 1.0.0
     repository: zachomedia.github.io/cert-manager-webhook-pdns
-    condition: { { eq .Values.questions.clusterIssuer.ACME.type "pdns" } }
     alias: webhookPDNS
     tags: []
     import-values: []
-maintainers:
-  - email: cyr-ius@ipocus.net
-    name: My Catalog
-    url: https://github.com/cyr-ius/
-sources:
-  - https://github.com/truecharts/charts/tree/master/charts/enterprise/clusterissuer
-  - https://cert-manager.io/
-type: application
 annotations:
-  truecharts.org/catagories: |
-    - core
+  truecharts.org/catagories: core
   truecharts.org/SCALE-support: "true"
   truecharts.org/grade: U
+  truecharts.org/train: stable
+type: application
