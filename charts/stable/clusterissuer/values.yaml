@@ -1,6 +1,6 @@
 image:
-  repository: tccr.io/truecharts/scratch
-  tag: latest@sha256:6880ba81ee729f5e15be7a467aa4e348856413b0053dfe75afd9d951f2766197
+  repository: hello-world
+  tag: latest@sha256:4bd78111b6914a99dbc560e6a20eab57ff6655aea4a80c50b0c5491968cbc2e6
   pullPolicy: IfNotPresent
 manifestManager:
   enabled: true
@@ -18,7 +18,6 @@ workload:
               enabled: false
             startup:
               enabled: false
-
 service:
   main:
     enabled: false
@@ -26,18 +25,15 @@ service:
       main:
         enabled: false
         port: 9999
-
 portal:
   open:
     enabled: false
-
 operator:
   verify:
     additionalOperators:
       - cert-manager
     enabled: true
     failOnError: false
-
 clusterIssuer:
   selfSigned:
     enabled: true
@@ -59,7 +55,7 @@ clusterIssuer:
 #     # Used primarily for the SCALE GUI
 #     customServer: 'https://acme-staging-v02.api.letsencrypt.org/directory'
 #     email: ""
-#     # Options: HTTP01, cloudflare, route53
+#     # Options: HTTP01, cloudflare, route53, akamai, digitalocean, rfc2136, acmedns
 #     type: ""
 #     # for cloudflare
 #     cfapikey: ""
@@ -82,3 +78,27 @@ clusterIssuer:
 #     tsigKeyName: ""
 #     tsigAlgorithm: ""
 #     rfctsigSecret: ""
+#     # for acmedns
+#     name: sd
+#     acmednsHost: asdf
+#     # Pick one of the bellow acmednsConfig
+#     acmednsConfigJson:
+#     acmednsConfig:
+#       - domain: ""
+#         username: ""
+#         password: ""
+#         fulldomain: ""
+#         subdomain: ""
+#         allowFrom: []
+
+clusterCertificates:
+  # Namespaces in which the certificates must be available
+  # Accepts comma-separated regex expressions
+  # replicationNamespaces: 'ix-.*'
+  certificates: []
+  # - name: mycert
+  #   enabled: true
+  #   certificateIssuer: selfsigned
+  #   hosts:
+  #     - my.domain.com
+  #     - '*.my.domain.com'
