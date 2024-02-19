@@ -128,7 +128,7 @@ stringData:
   akaccessToken: {{ .akaccessToken | default "" }}
   doaccessToken: {{ .doaccessToken | default "" }}
   rfctsigSecret: {{ $rfctsigSecret }}
-  pdnsapikey: {{ pdnsapikey | default ""}}
+  pdnsapikey: {{ .pdnsapikey | default ""}}
 
 {{- if .acmednsConfigJson }}
   acmednsJson: {{ .acmednsConfigJson }}
