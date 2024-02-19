@@ -102,11 +102,14 @@ spec:
             name: {{ $issuerSecretName }}
             key: acmednsJson
       {{- else if eq .type "pdns" }}
-        pdns:
-          host: {{ .pdnshost }}
-          apiSecretRef:
-            name: {{ $issuerSecretName }}
-            key: pdnsapikey
+        webhook:
+          groupName: acme.zacharyseguin.ca
+          solverName: pdns
+          config:
+            host: {{ .pdnshost }}
+            apiSecretRef:
+              name: {{ $issuerSecretName }}
+              key: pdnsapikey
       {{- end -}}
     {{- end }}
 ---
@@ -125,6 +128,8 @@ stringData:
   akaccessToken: {{ .akaccessToken | default "" }}
   doaccessToken: {{ .doaccessToken | default "" }}
   rfctsigSecret: {{ $rfctsigSecret }}
+  pdnsapikey: {{ pdnsapikey | default ""}}
+
 {{- if .acmednsConfigJson }}
   acmednsJson: {{ .acmednsConfigJson }}
 {{- else if $acmednsDict }}
