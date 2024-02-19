@@ -11,7 +11,7 @@ appVersion: latest
 dependencies:
   - name: common
     version: 17.4.2
-    repository: oci://tccr.io/truecharts
+    repository: https://library-charts.truecharts.org
     condition: ""
     alias: ""
     tags: []
@@ -41,4 +41,4 @@ sources:
   - https://github.com/truecharts/charts/tree/master/charts/enterprise/clusterissuer
   - https://hub.docker.com/_/hello-world
 type: application
-version: 1.0.5
+version: 1.0.6
