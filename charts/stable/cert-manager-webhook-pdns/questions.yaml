@@ -3,14 +3,9 @@ questions:
 # Include{global}
 # Include{workload}
 # Include{workloadDeployment}
-
 # Include{replicas1}
 # Include{podSpec}
 # Include{containerMain}
-
-
-# Include{containerBasic}
-# Include{containerAdvanced}
   - variable: groupName
     label: Group name
     schema:
@@ -102,7 +97,8 @@ questions:
                 label: zone
                 schema:
                   type: string
-
+# Include{containerBasic}
+# Include{containerAdvanced}
 # Include{resources}
 # Include{postgresql}
 # Include{advanced}
