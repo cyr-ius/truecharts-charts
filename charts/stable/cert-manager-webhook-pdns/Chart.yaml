@@ -20,7 +20,7 @@ annotations:
 dependencies:
   - name: common
     version: 19.0.0
-    repository: oci://tccr.io/truecharts
+    repository: https://library-charts.truecharts.org
     condition: ""
     alias: ""
     tags: []
