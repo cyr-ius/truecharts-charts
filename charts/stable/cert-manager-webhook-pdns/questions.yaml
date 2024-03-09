@@ -1,5 +1,16 @@
 # Include{groups}
 questions:
+# Include{global}
+# Include{workload}
+# Include{workloadDeployment}
+
+# Include{replicas1}
+# Include{podSpec}
+# Include{containerMain}
+
+
+# Include{containerBasic}
+# Include{containerAdvanced}
   - variable: groupName
     label: Group name
     schema:
@@ -91,4 +102,12 @@ questions:
                 label: zone
                 schema:
                   type: string
+
+# Include{resources}
+# Include{postgresql}
+# Include{advanced}
+# Include{addons}
+# Include{codeserver}
+# Include{netshoot}
+# Include{vpn}
 # Include{documentation}
