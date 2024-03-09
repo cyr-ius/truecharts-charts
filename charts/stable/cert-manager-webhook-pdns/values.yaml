@@ -1,4 +1,4 @@
-groupName: acme.ipocus.net
+groupName: acme.mycompany.com
 
 certManager:
   namespace: ix-cert-manager

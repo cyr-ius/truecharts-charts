@@ -35,36 +35,32 @@ questions:
         - variable: email
           label: 'Email'
           schema:
-            default: ""
             type: string
             required: true
         - variable: host
           label: 'Host'
           schema:
-            default: ""
             type: string
             required: true
         - variable: apiKeySecretRef
           label: 'API Key (encoded base64)'
           schema:
-            default: ""
             type: string
             required: true
         - variable: apiKeyScheme
           label: 'API Key scheme'
           schema:
-            default: ""
             type: string
         - variable: apiKeyHeaderName
           label: 'API Key header name'
           schema:
-            default: ""
             type: string
         - variable: serverID
-                  label: 'server ID'
-                  schema:
-                    default: "localhost"
-                    type: string
+          label: 'server ID'
+          schema:
+            default: "localhost"
+            type: string
+            required: true
         - variable: caBundle
           label: Trusted CABundle for private ACME server
           description: "Trusted CABundle for private ACME server, encoded in base64"
@@ -76,12 +72,14 @@ questions:
           schema:
             default: 120
             type: int
+            required: true
         - variable: timeout
           label: 'Timeout'
           description: 'Timeout for requests to the PDNS api server'
           schema:
             default: 30
             type: int
+            required: true
         - variable: allowed-zones
           label: Allowed zones
           description: "Remember the trailing dot to make the zone-name"
