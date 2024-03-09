@@ -1,0 +1,96 @@
+# Include{groups}
+questions:
+  - variable: groupName
+    label: Group name
+    schema:
+      default: "acme.mycompany.com"
+      type: string
+      required: true
+  - variable: certManager
+    group: Cert Manager
+    label: Cert Manager
+    schema:
+      additional_attrs: true
+      type: dict
+      attrs:
+        - variable: namespace
+          label: 'Namespace'
+          schema:
+            default: "ix-cert-manager"
+            type: string
+            required: true
+        - variable: serviceAccountName
+          label: 'serviceAccountName'
+          schema:
+            default: "cert-manager-certmanager"
+            type: string
+            required: true
+  - variable: webhook
+    group: Webhook
+    label: Webhook
+    schema:
+      additional_attrs: true
+      type: dict
+      attrs:
+        - variable: email
+          label: 'Email'
+          schema:
+            default: ""
+            type: string
+            required: true
+        - variable: host
+          label: 'Host'
+          schema:
+            default: ""
+            type: string
+            required: true
+        - variable: apiKeySecretRef
+          label: 'API Key (encoded base64)'
+          schema:
+            default: ""
+            type: string
+            required: true
+        - variable: apiKeyScheme
+          label: 'API Key scheme'
+          schema:
+            default: ""
+            type: string
+        - variable: apiKeyHeaderName
+          label: 'API Key header name'
+          schema:
+            default: ""
+            type: string
+        - variable: serverID
+                  label: 'server ID'
+                  schema:
+                    default: "localhost"
+                    type: string
+        - variable: caBundle
+          label: Trusted CABundle for private ACME server
+          description: "Trusted CABundle for private ACME server, encoded in base64"
+          schema:
+            type: string
+        - variable: ttl
+          label: 'Time to Live'
+          description: 'TTL for DNS records'
+          schema:
+            default: 120
+            type: int
+        - variable: timeout
+          label: 'Timeout'
+          description: 'Timeout for requests to the PDNS api server'
+          schema:
+            default: 30
+            type: int
+        - variable: allowed-zones
+          label: Allowed zones
+          description: "Remember the trailing dot to make the zone-name"
+          schema:
+            type: list
+            default: []
+            items:
+              - variable: zone
+                label: zone
+                schema:
+                  type: string
+# Include{documentation}
