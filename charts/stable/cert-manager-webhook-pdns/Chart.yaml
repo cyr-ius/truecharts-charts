@@ -1,3 +1,4 @@
+kubeVersion: ">=1.24.0-0"
 apiVersion: v2
 name: cert-manager-webhook-pdns
 version: 1.1.6
@@ -25,3 +26,6 @@ dependencies:
     alias: ""
     tags: []
     import-values: []
+deprecated: false
+sources:
+  - https://github.com/cyr-ius/truenas-charts/tree/my-refs/charts/stable/cert-manager-webhook-pdns
