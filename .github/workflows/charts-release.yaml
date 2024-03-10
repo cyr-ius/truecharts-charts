@@ -152,10 +152,7 @@ jobs:
         run: |
           CHARTS=(${{ steps.collect-changes.outputs.modifiedChartsAfterTag }})
           ./charttool deps
-          pip install yq
-          parthreads=$(($(nproc) * 2))
-          parallel -j ${parthreads} .github/scripts/build-catalog.sh '2>&1' ::: ${CHARTS[@]}
-#          rm -rf website
+          ./charttool buildSCALE
 
       - name: Commit Catalog
         if: |
@@ -177,6 +174,11 @@ jobs:
         run: |
           git config user.name "cyr-ius"
           git config user.email "bot@ipocus.net"
+
+      - name: Install Helm
+        uses: azure/setup-helm@b7246b12e77f7134dc2d460a3d5bad15bbe29390 # v4
+        with:
+          version: v3.14.0
 
         # Optional step if GPG signing is used
       - name: Prepare GPG key
@@ -204,7 +206,7 @@ jobs:
           config: cr.yaml
         env:
           CR_TOKEN: "${{ secrets.BOT_TOKEN }}"
-          CR_SKIP_EXISTING: "true"
+          CR_SKIP_EXISTING: "true"       
 
       - name: Tag App Releases
         if: |
