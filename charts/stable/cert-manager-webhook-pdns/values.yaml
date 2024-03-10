@@ -25,11 +25,12 @@ workload:
               enabled: false
 service:
   main:
+    enabled: true
+    type: ClusterIP
     ports:
-      type: ClusterIP
       main:
         port: 443
-        protocol: https
+        type: https
 persistence:
   certs:
     enabled: true
