@@ -11,6 +11,22 @@ webhook:
   ttl: 120
   timeout: 30
   caBundle: BASE64_ENCODED_CA_BUNDLE
+nameOverride: ""
+fullnameOverride: ""
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
 service:
   type: ClusterIP
   port: 443
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+containerSecurityContext:
+  runAsUser: 100
+  runAsGroup: 100
+podAnnotations: {}
+podSecurityContext: {}
+priorityClassName: ""
