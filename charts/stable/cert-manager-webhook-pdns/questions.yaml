@@ -14,14 +14,14 @@ questions:
 # Include{containerConfig}
   - variable: groupName
     label: "Group name"
-    group: "Group Name"
+    group: "General Settings"
     schema:
       type: string
       default: "acme.mycompany.com"
       required: true
 
   - variable: certManager
-    group: "Cert Manager"
+    group: "General Settings"
     label: "Cert Manager"
     schema:
       additional_attrs: true
@@ -41,7 +41,7 @@ questions:
             required: true
 
   - variable: webhook
-    group: "Webhook"
+    group: "General Settings"
     label: "Webhook"
     schema:
       additional_attrs: true
@@ -106,6 +106,7 @@ questions:
                 label: "Domain DNS Zone"
                 schema:
                   type: string
+
 # Include{podOptions}
 # Include{serviceRoot}
 # Include{serviceMain}
