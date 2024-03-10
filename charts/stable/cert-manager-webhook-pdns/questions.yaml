@@ -4,24 +4,16 @@ portals:
 # Include{portalLink}
 questions:
 # Include{global}
-# Include{workload}
-# Include{workloadDeployment}
-# Include{replicas1}
-# Include{podSpec}
-# Include{containerMain}
-# Include{containerBasic}
-# Include{containerAdvanced}
-# Include{containerConfig}
   - variable: groupName
     label: "Group name"
-    group: "General Settings"
+    group: "App Configuration"
     schema:
       type: string
       default: "acme.mycompany.com"
       required: true
 
   - variable: certManager
-    group: "General Settings"
+    group: "App Configuration"
     label: "Cert Manager"
     schema:
       additional_attrs: true
@@ -41,7 +33,7 @@ questions:
             required: true
 
   - variable: webhook
-    group: "General Settings"
+    group: "App Configuration"
     label: "Webhook"
     schema:
       additional_attrs: true
@@ -66,73 +58,41 @@ questions:
           label: "API Key scheme"
           schema:
             type: string
-            default: ""
         - variable: apiKeyHeaderName
           label: "API Key header name"
           schema:
             type: string
-            default: ""
         - variable: serverID
           label: "server ID"
           schema:
             default: "localhost"
             type: string
             required: true
-        # - variable: caBundle
-        #   label: "Trusted CABundle for private ACME server"
-        #   description: "Trusted CABundle for private ACME server, encoded in base64"
-        #   schema:
-        #     type: string
-        #     default: BASE64_ENCODED_CA_BUNDLE
+        - variable: caBundle
+          label: "Trusted CABundle for private ACME server"
+          description: "Trusted CABundle for private ACME server, encoded in base64"
+          schema:
+            type: string
         - variable: ttl
           label: "Time to Live"
           description: "TTL for DNS records"
           schema:
             default: 120
             type: int
-            required: true
         - variable: timeout
           label: "Timeout"
           description: "Timeout for requests to the PDNS api server"
           schema:
             default: 30
             type: int
-            required: true
-        # - variable: allowed-zones
-        #   label: "Allowed zones"
-        #   description: "Remember the trailing dot to make the zone-name"
-        #   schema:
-        #     type: list
-        #     default: []
-        #     items:
-        #       - variable: zone
-        #         label: "Domain DNS Zone"
-        #         schema:
-        #           type: string
-
-# Include{podOptions}
-# Include{serviceRoot}
-# Include{serviceMain}
-# Include{serviceSelectorLoadBalancer}
-# Include{serviceSelectorExtras}
-# Include{serviceExpertRoot}
-# Include{serviceExpert}
-# Include{serviceList}
-# Include{persistenceRoot}
-# Include{persistenceBasic}
-# Include{persistenceList}
-# Include{ingressRoot}
-# Include{ingressDefault}
-# Include{ingressAdvanced}
-# Include{ingressList}
-# Include{securityContextRoot}
-# Include{securityContextContainer}
-# Include{securityContextAdvanced}
-# Include{securityContextPod}
-# Include{resources}
-# Include{advanced}
-# Include{addons}
-# Include{codeserver}
-# Include{netshoot}
-# Include{vpn}
-# Include{documentation}
+        - variable: allowed-zones
+          label: "Allowed zones"
+          description: "Remember the trailing dot to make the zone-name"
+          schema:
+            type: list
+            default: []
+            items:
+              - variable: zone
+                label: "Domain DNS Zone"
+                schema:
+                  type: string
