@@ -55,6 +55,7 @@ Create the name of the service account to use
 {{- define "cert-manager-webhook-pdns.secretVolumes" -}}
 enabled: true
 readOnly: true
+mountPath: "/tls"
 type: secret
 objectName: certs
 secretName: {{ include "cert-manager-webhook-pdns.servingCertificate" . }}
