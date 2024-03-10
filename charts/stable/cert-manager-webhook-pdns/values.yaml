@@ -1,37 +1,16 @@
 groupName: acme.mycompany.com
-
 certManager:
   namespace: ix-cert-manager
   serviceAccountName: cert-manager-certmanager
-
 image:
   repository: zachomedia/cert-manager-webhook-pdns
-  # tag: latest
+  tag: latest
   pullPolicy: IfNotPresent
-
 webhook:
-  email: ""
-  host: ""
-  apiKeySecretRef: ""
-  apiKeyScheme: ""
-  apiKeyHeaderName: ""
-  serverID: "localhost"
+  serverID: localhost
   ttl: 120
   timeout: 30
   caBundle: BASE64_ENCODED_CA_BUNDLE
-  allowed-zones: []
-
-nameOverride: ""
-fullnameOverride: ""
-
 service:
   type: ClusterIP
   port: 443
-
-resources: {}
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
