@@ -10,87 +10,87 @@ questions:
 # Include{podSpec}
 # Include{containerMain}
   - variable: groupName
-    label: Group name
+    label: "Group name"
     schema:
       default: "acme.mycompany.com"
       type: string
       required: true
   - variable: certManager
-    group: Cert Manager
-    label: Cert Manager
+    group: "Cert Manager"
+    label: "Cert Manager"
     schema:
       additional_attrs: true
       type: dict
       attrs:
         - variable: namespace
-          label: 'Namespace'
+          label: "Namespace"
           schema:
             default: "ix-cert-manager"
             type: string
             required: true
         - variable: serviceAccountName
-          label: 'serviceAccountName'
+          label: "Service Account Name"
           schema:
             default: "cert-manager-certmanager"
             type: string
             required: true
   - variable: webhook
-    group: Webhook
-    label: Webhook
+    group: "Webhook"
+    label: "Webhook"
     schema:
       additional_attrs: true
       type: dict
       attrs:
         - variable: email
-          label: 'Email'
+          label: "Email"
           schema:
             type: string
             required: true
         - variable: host
-          label: 'Host'
+          label: "Host"
           schema:
             type: string
             required: true
         - variable: apiKeySecretRef
-          label: 'API Key (encoded base64)'
+          label: "API Key (encoded base64)"
           schema:
             type: string
             required: true
         - variable: apiKeyScheme
-          label: 'API Key scheme'
+          label: "API Key scheme"
           schema:
             type: string
         - variable: apiKeyHeaderName
-          label: 'API Key header name'
+          label: "API Key header name"
           schema:
             type: string
         - variable: serverID
-          label: 'server ID'
+          label: "server ID"
           schema:
             default: "localhost"
             type: string
             required: true
         - variable: caBundle
-          label: Trusted CABundle for private ACME server
+          label: "Trusted CABundle for private ACME server"
           description: "Trusted CABundle for private ACME server, encoded in base64"
           schema:
             type: string
         - variable: ttl
-          label: 'Time to Live'
-          description: 'TTL for DNS records'
+          label: "Time to Live"
+          description: "TTL for DNS records"
           schema:
             default: 120
             type: int
             required: true
         - variable: timeout
-          label: 'Timeout'
-          description: 'Timeout for requests to the PDNS api server'
+          label: "Timeout"
+          description: "Timeout for requests to the PDNS api server"
           schema:
             default: 30
             type: int
             required: true
         - variable: allowed-zones
-          label: Allowed zones
+          label: "Allowed zones"
           description: "Remember the trailing dot to make the zone-name"
           schema:
             type: list
@@ -102,16 +102,24 @@ questions:
                   type: string
 # Include{containerBasic}
 # Include{containerAdvanced}
-# Include{containerAdvanced}
 # Include{containerConfig}
 # Include{podOptions}
 # Include{serviceRoot}
+# Include{serviceMain}
 # Include{serviceSelectorLoadBalancer}
 # Include{serviceSelectorExtras}
 # Include{serviceExpertRoot}
 # Include{serviceExpert}
 # Include{serviceList}
+# Include{persistenceRoot}
+# Include{persistenceBasic}
 # Include{persistenceList}
+# Include{ingressRoot}
+# Include{ingressDefault}
+# Include{ingressTLS}
+# Include{ingressTraefik}
+# Include{ingressAdvanced}
+# Include{ingressList}
 # Include{securityContextRoot}
 # Include{securityContextContainer}
 # Include{securityContextAdvanced}
