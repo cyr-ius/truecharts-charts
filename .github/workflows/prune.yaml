@@ -11,7 +11,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
         with:
-          fetch-depth: 0
+              fetch-depth: 0
+      - uses: dev-drprasad/delete-older-releases@v0.3.2
+        with:
+          repo: <owner>/<repoName> # defaults to current repo
+          keep_latest: 20
+          keep_min_download_counts: 1 # Optional parameters
+          delete_expired_data: 10 # Optional parameters
+          delete_tags: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
       - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5
         with:
           min-versions-to-keep: 200
