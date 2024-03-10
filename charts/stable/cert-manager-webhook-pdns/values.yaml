@@ -45,17 +45,7 @@ webhook:
   caBundle: BASE64_ENCODED_CA_BUNDLE
 nameOverride: ""
 fullnameOverride: ""
-serviceAccount:
-  create: true
-  annotations: {}
-  name: ""
 resources: {}
 nodeSelector: {}
 tolerations: []
 affinity: {}
-containerSecurityContext:
-  runAsUser: 100
-  runAsGroup: 100
-podAnnotations: {}
-podSecurityContext: {}
-priorityClassName: ""
