@@ -52,19 +52,16 @@ questions:
           schema:
             type: string
             required: true
-            default: "email@exemple.com"
         - variable: host
           label: "Host"
           schema:
             type: string
             required: true
-            default: "https://powerdns.exemple.com"
         - variable: apiKeySecretRef
           label: "API Key (encoded base64)"
           schema:
             type: string
             required: true
-            default: ""
         - variable: apiKeyScheme
           label: "API Key scheme"
           schema:
@@ -81,12 +78,12 @@ questions:
             default: "localhost"
             type: string
             required: true
-        - variable: caBundle
-          label: "Trusted CABundle for private ACME server"
-          description: "Trusted CABundle for private ACME server, encoded in base64"
-          schema:
-            type: string
-            default: BASE64_ENCODED_CA_BUNDLE
+        # - variable: caBundle
+        #   label: "Trusted CABundle for private ACME server"
+        #   description: "Trusted CABundle for private ACME server, encoded in base64"
+        #   schema:
+        #     type: string
+        #     default: BASE64_ENCODED_CA_BUNDLE
         - variable: ttl
           label: "Time to Live"
           description: "TTL for DNS records"
@@ -101,17 +98,17 @@ questions:
             default: 30
             type: int
             required: true
-        - variable: allowed-zones
-          label: "Allowed zones"
-          description: "Remember the trailing dot to make the zone-name"
-          schema:
-            type: list
-            default: []
-            items:
-              - variable: zone
-                label: "Domain DNS Zone"
-                schema:
-                  type: string
+        # - variable: allowed-zones
+        #   label: "Allowed zones"
+        #   description: "Remember the trailing dot to make the zone-name"
+        #   schema:
+        #     type: list
+        #     default: []
+        #     items:
+        #       - variable: zone
+        #         label: "Domain DNS Zone"
+        #         schema:
+        #           type: string
 
 # Include{podOptions}
 # Include{serviceRoot}
@@ -126,8 +123,6 @@ questions:
 # Include{persistenceList}
 # Include{ingressRoot}
 # Include{ingressDefault}
-# Include{ingressTLS}
-# Include{ingressTraefik}
 # Include{ingressAdvanced}
 # Include{ingressList}
 # Include{securityContextRoot}
