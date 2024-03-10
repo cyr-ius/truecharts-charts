@@ -11,9 +11,10 @@ questions:
 # Include{containerMain}
   - variable: groupName
     label: "Group name"
+    group: "Group Name"
     schema:
-      default: "acme.mycompany.com"
       type: string
+      default: "acme.mycompany.com"
       required: true
   - variable: certManager
     group: "Cert Manager"
@@ -25,14 +26,14 @@ questions:
         - variable: namespace
           label: "Namespace"
           schema:
-            default: "ix-cert-manager"
             type: string
+            default: "ix-cert-manager"
             required: true
         - variable: serviceAccountName
           label: "Service Account Name"
           schema:
-            default: "cert-manager-certmanager"
             type: string
+            default: "cert-manager-certmanager"
             required: true
   - variable: webhook
     group: "Webhook"
@@ -97,9 +98,10 @@ questions:
             default: []
             items:
               - variable: zone
-                label: zone
+                label: "Domain DNS Zone"
                 schema:
                   type: string
+
 # Include{containerBasic}
 # Include{containerAdvanced}
 # Include{containerConfig}
