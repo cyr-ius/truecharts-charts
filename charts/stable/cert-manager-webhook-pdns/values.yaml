@@ -26,7 +26,6 @@ service:
       main:
         enabled: true
         port: 443
-        type: https
 portal:
   open:
     enabled: false
