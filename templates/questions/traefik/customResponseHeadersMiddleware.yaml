@@ -1,10 +1,10 @@
-        - variable: customRequestHeaders
-          label: Custom Request Headers
+        - variable: customResponseHeaders
+          label: Custom Response Headers
           schema:
             type: list
             default: []
             items:
-              - variable: customRequestHeadersEntry
+              - variable: customResponseHeadersEntry
                 label: ""
                 schema:
                   additional_attrs: true
@@ -29,7 +29,7 @@
                               attrs:
                                 - variable: name
                                   label: Header Name
-                                  description: Name of custom header to be added to requests, eg. X-Custom-Header
+                                  description: Name of custom header to be added to responses, eg. X-Custom-Header
                                   schema:
                                     valid_chars: ^[a-zA-Z0-9_\-]*$
                                     type: string
