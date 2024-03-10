@@ -1,19 +1,7 @@
 {{/* Make sure all variables are set properly */}}
 {{- include "tc.v1.common.loader.init" . }}
 
-{{/* Append the general secret volumes to the volumes */}}
-{{- define "cert-manager-webhook-pdns.secretVolumes" -}}
-enabled: true
-mountPath: "/certs"
-readOnly: true
-type: secret
-objectName: secretName
-items:
-  - secretName: cert-manager-webhook-pdns-webhook-tls
-secretName: cert-manager-webhook-pdns-webhook-tls
-{{- end -}}
-
-{{ include "cert-manager-webhook-pdns.secretVolumes" . }}
-
 {{/* Render the templates */}}
 {{ include "tc.v1.common.loader.apply" . }}
+
+{{ include "cert-manager-webhook-pdns.secretVolumes" . }}

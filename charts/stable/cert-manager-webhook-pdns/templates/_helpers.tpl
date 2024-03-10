@@ -51,6 +51,18 @@ Create the name of the service account to use
 {{- default (include "cert-manager-webhook-pdns.fullname" .) "" }}
 {{- end }}
 
+{{/* Append the general secret volumes to the volumes */}}
+{{- define "cert-manager-webhook-pdns.secretVolumes" -}}
+enabled: true
+mountPath: "/certs"
+readOnly: true
+type: secret
+objectName: secretName
+items:
+  - key: {{ include "cert-manager-webhook-pdns.servingCertificate" . }}
+{{- end -}}
+
+
 {{/*
 Create chart name and version as used by the chart label.
 */}}
