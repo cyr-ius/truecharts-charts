@@ -31,9 +31,11 @@ service:
         port: 443
         protocol: https
 persistence:
-  cert:
+  certs:
     enabled: true
     mountPath: "/tls"
+    readOnly: true
+    targetSelectAll: true
 portal:
   open:
     enabled: false
