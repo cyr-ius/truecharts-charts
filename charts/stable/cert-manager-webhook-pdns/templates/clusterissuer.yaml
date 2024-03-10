@@ -10,7 +10,7 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   acme:
-    email: {{ .Values.webhook.email }}
+    email: {{ .Values.webhookPdns.email }}
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-account-key
@@ -20,14 +20,14 @@ spec:
             groupName: {{ .Values.groupName }}
             solverName: pdns
             config:
-              host: {{ .Values.webhook.host }}
+              host: {{ .Values.webhookPdns.host }}
               apiKeySecretRef:
                 name: pdns-api-key
                 key: key
-              apiKeyScheme: {{ .Values.webhook.apiKeyScheme }}
-              apiKeyHeaderName: {{ .Values.webhook.apiKeyHeaderName }}
-              serverID: {{ .Values.webhook.serverID }}
-              caBundle: {{ .Values.webhook.caBundle }}
-              ttl: {{ .Values.webhook.ttl }}
-              timeout: {{ .Values.webhook.timeout }}
-              allowed-zones: {{ .Values.webhook.timeout }}
+              apiKeyScheme: {{ .Values.webhookPdns.apiKeyScheme }}
+              apiKeyHeaderName: {{ .Values.webhookPdns.apiKeyHeaderName }}
+              serverID: {{ .Values.webhookPdns.serverID }}
+              caBundle: {{ .Values.webhookPdns.caBundle }}
+              ttl: {{ .Values.webhookPdns.ttl }}
+              timeout: {{ .Values.webhookPdns.timeout }}
+              allowed-zones: {{ .Values.webhookPdns.timeout }}

@@ -29,7 +29,7 @@ questions:
             default: "cert-manager-certmanager"
             required: true
 
-  - variable: webhook
+  - variable: webhookPdns
     group: "App Configuration"
     label: "Webhook"
     schema:
