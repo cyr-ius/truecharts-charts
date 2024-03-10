@@ -93,3 +93,16 @@ questions:
                 label: "Domain DNS Zone"
                 schema:
                   type: string
+  - variable: customMetrics
+    group: Metrics
+    label: Prometheus Metrics
+    schema:
+      additional_attrs: true
+      type: dict
+      attrs:
+        - variable: enabled
+          label: Enabled
+          description: Enable Prometheus Metrics
+          schema:
+            type: boolean
+            default: true

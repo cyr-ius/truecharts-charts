@@ -1,11 +1,43 @@
-groupName: acme.mycompany.com
-certManager:
-  namespace: ix-cert-manager
-  serviceAccountName: cert-manager-certmanager
 image:
   repository: zachomedia/cert-manager-webhook-pdns
   tag: latest@sha256:a01f9a54bc2a32fd72a0df79d0e27450c7f20f1122b2463ca665d80fa6acedd9
   pullPolicy: IfNotPresent
+manifestManager:
+  enabled: true
+workload:
+  main:
+    enabled: false
+    podSpec:
+      containers:
+        main:
+          enabled: false
+          probes:
+            liveness:
+              enabled: false
+            readiness:
+              enabled: false
+            startup:
+              enabled: false
+service:
+  main:
+    enabled: false
+    ports:
+      main:
+        enabled: false
+        port: 443
+portal:
+  open:
+    enabled: false
+operator:
+  verify:
+    additionalOperators:
+      - cert-manager
+    enabled: true
+    failOnError: false
+groupName: acme.mycompany.com
+certManager:
+  namespace: ix-cert-manager
+  serviceAccountName: cert-manager-certmanager
 webhook:
   serverID: localhost
   ttl: 120
@@ -17,9 +49,6 @@ serviceAccount:
   create: true
   annotations: {}
   name: ""
-service:
-  type: ClusterIP
-  port: 443
 resources: {}
 nodeSelector: {}
 tolerations: []
