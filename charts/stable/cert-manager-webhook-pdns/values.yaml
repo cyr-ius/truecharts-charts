@@ -35,8 +35,6 @@ persistence:
   certs:
     enabled: true
     mountPath: "/tls"
-    readOnly: true
-    targetSelectAll: true
 portal:
   open:
     enabled: false
