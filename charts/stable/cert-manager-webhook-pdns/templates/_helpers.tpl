@@ -57,7 +57,7 @@ enabled: true
 readOnly: true
 mountPath: "/tls"
 type: secret
-objectName: certs
+objectName: pdns-api-key
 secretName: {{ include "cert-manager-webhook-pdns.servingCertificate" . }}
 {{- end -}}
 
