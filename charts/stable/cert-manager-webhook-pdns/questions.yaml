@@ -52,24 +52,29 @@ questions:
           schema:
             type: string
             required: true
+            default: "email@exemple.com"
         - variable: host
           label: "Host"
           schema:
             type: string
             required: true
+            default: "https://powerdns.exemple.com"
         - variable: apiKeySecretRef
           label: "API Key (encoded base64)"
           schema:
             type: string
             required: true
+            default: ""
         - variable: apiKeyScheme
           label: "API Key scheme"
           schema:
             type: string
+            default: ""
         - variable: apiKeyHeaderName
           label: "API Key header name"
           schema:
             type: string
+            default: ""
         - variable: serverID
           label: "server ID"
           schema:
@@ -81,6 +86,7 @@ questions:
           description: "Trusted CABundle for private ACME server, encoded in base64"
           schema:
             type: string
+            default: BASE64_ENCODED_CA_BUNDLE
         - variable: ttl
           label: "Time to Live"
           description: "TTL for DNS records"
