@@ -1,7 +1,5 @@
 {{/* Make sure all variables are set properly */}}
 {{- include "tc.v1.common.loader.init" . }}
 
-{{- $_ := set .Values.persistence "certs" (include "cert-manager-webhook-pdns.secretVolumes" . | fromYaml) -}}
-
 {{/* Render the templates */}}
 {{ include "tc.v1.common.loader.apply" . }}
