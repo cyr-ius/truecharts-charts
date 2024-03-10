@@ -6,26 +6,34 @@ manifestManager:
   enabled: true
 workload:
   main:
-    enabled: false
     podSpec:
       containers:
         main:
-          enabled: false
+          args:
+            - --tls-cert-file=/tls/tls.crt
+            - --tls-private-key-file=/tls/tls.key
+          env:
+            GROUP_NAME: "acme.mycompany.com"
           probes:
             liveness:
-              enabled: false
+              type: https
+              path: /healthz
             readiness:
-              enabled: false
+              type: https
+              path: /healthz
             startup:
               enabled: false
 service:
   main:
-    enabled: true
     ports:
       type: ClusterIP
       main:
-        enabled: true
         port: 443
+        protocol: https
+persistence:
+  cert:
+    enabled: true
+    mountPath: "/tls"
 portal:
   open:
     enabled: false
