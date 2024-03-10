@@ -48,11 +48,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Create the name of the service account to use
 */}}
 {{- define "cert-manager-webhook-pdns.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "cert-manager-webhook-pdns.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
+{{- default (include "cert-manager-webhook-pdns.fullname" .) "" }}
 {{- end }}
 
 {{/*
