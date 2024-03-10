@@ -4,16 +4,16 @@
 {{/* Append the general secret volumes to the volumes */}}
 {{- define "cert-manager-webhook-pdns.secretVolumes" -}}
 enabled: true
+mountPath: "/certs"
 readOnly: true
 type: secret
 objectName: secretName
-targetSelector:
-  main:
-    main:
-      mountPath: /certs
+items:
+  - secretName: cert-manager-webhook-pdns-webhook-tls
+secretName: cert-manager-webhook-pdns-webhook-tls
 {{- end -}}
 
-{{- $_ := set .Values.persistence "certs" (include "cert-manager-webhook-pdns.secretVolumes" . | fromYaml) -}}
+{{ include "cert-manager-webhook-pdns.secretVolumes" . }}
 
 {{/* Render the templates */}}
 {{ include "tc.v1.common.loader.apply" . }}
