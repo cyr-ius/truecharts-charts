@@ -20,11 +20,13 @@ workload:
               enabled: false
 service:
   main:
-    enabled: false
+    enabled: true
     ports:
+      type: ClusterIP
       main:
-        enabled: false
+        enabled: true
         port: 443
+        type: https
 portal:
   open:
     enabled: false
