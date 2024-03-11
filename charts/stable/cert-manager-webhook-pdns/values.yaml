@@ -13,6 +13,10 @@ workload:
             - --secure-port=8443
           env:
             GROUP_NAME: "acme.mycompany.com"
+          ports:
+            - name: https
+              containerPort: 8443
+              protocol: TCP
           probes:
             liveness:
               type: https
@@ -30,6 +34,11 @@ service:
       main:
         port: 443
         type: https
+presistence:
+  certs:
+    enabled: true
+    readOnly: true
+    mountPath: "/tls"
 portal:
   open:
     enabled: false
