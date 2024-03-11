@@ -74,7 +74,7 @@ Create chart name and version as used by the chart label.
 {{ printf "%s-webhook-tls" (include "cert-manager-webhook-pdns.fullname" .) }}
 {{- end -}}
 
-{{ -define  "cert-manager-webhook-pdns.secretVolume" -}}
+{{- define  "cert-manager-webhook-pdns.secretVolume" -}}
   enabled: true
   mountPath: "/tls"
   type: secret
