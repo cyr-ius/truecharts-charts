@@ -1,9 +1,7 @@
 image:
   repository: zachomedia/cert-manager-webhook-pdns
-  tag: latest@sha256:a01f9a54bc2a32fd72a0df79d0e27450c7f20f1122b2463ca665d80fa6acedd9
+  tag: latest
   pullPolicy: IfNotPresent
-manifestManager:
-  enabled: true
 workload:
   main:
     podSpec:
