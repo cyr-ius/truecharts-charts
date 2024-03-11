@@ -35,8 +35,9 @@ persistence:
   certs:
     enabled: true
     mountPath: "/tls"
+    type: secret
     readOnly: true
-    targetSelectAll: true
+    objectName: cert-manager-webhook-pdns-webhook-tls
 portal:
   open:
     enabled: false
