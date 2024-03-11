@@ -1,5 +1,8 @@
 {{/* Make sure all variables are set properly */}}
 {{- include "tc.v1.common.loader.init" . }}
 
+{{/* Merge the templates with Values  */}}
+{{- $_ := mustMergeOverwrite .Values (include "cert-manager-webhook-pdns.persistence" $ | fromYaml) -}}
+
 {{/* Render the templates */}}
 {{ include "tc.v1.common.loader.apply" . }}

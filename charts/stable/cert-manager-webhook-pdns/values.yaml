@@ -12,6 +12,7 @@ workload:
           args:
             - --tls-cert-file=/tls/tls.crt
             - --tls-private-key-file=/tls/tls.key
+            - --secure-port=8443
           env:
             GROUP_NAME: "acme.mycompany.com"
           probes:
@@ -31,10 +32,6 @@ service:
       main:
         port: 443
         type: https
-persistence:
-  certs:
-    enabled: true
-    mountPath: "/tls"
 portal:
   open:
     enabled: false

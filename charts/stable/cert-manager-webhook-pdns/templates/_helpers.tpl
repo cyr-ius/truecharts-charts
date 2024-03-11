@@ -73,15 +73,3 @@ Create chart name and version as used by the chart label.
 {{- define "cert-manager-webhook-pdns.servingCertificate" -}}
 {{ printf "%s-webhook-tls" (include "cert-manager-webhook-pdns.fullname" .) }}
 {{- end -}}
-
-{{- define  "cert-manager-webhook-pdns.secretVolume" -}}
-  enabled: true
-  mountPath: "/tls"
-  type: secret
-  readOnly: true
-  expandObjectName: false
-  optional: false
-  objectName: {{ include "cert-manager-webhook-pdns.servingCertificate" . }}
-{{- end -}}
-
-{{- $_ := set .Values.persistence " certs" (include "cert-manager-webhook-pdns.secretVolume" . | fromYaml) -}}
