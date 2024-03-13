@@ -104,9 +104,6 @@ questions:
                   type: string
 # Include{containerConfig}
 # Include{podOptions}
-# Include{persistenceRoot}
-# Include{persistenceBasic}
-# Include{persistenceList}
 # Include{serviceRoot}
 # Include{serviceMain}
 # Include{serviceSelectorClusterIP}
