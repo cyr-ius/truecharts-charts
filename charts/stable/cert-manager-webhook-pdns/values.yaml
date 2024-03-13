@@ -28,12 +28,6 @@ portal:
   open:
     enabled: false
 
-persistence:
-  certs:
-    enabled: true
-    readOnly: true
-    mountPath: /tls
-
 groupName: acme.zacharyseguin.ca
 
 certManager:
