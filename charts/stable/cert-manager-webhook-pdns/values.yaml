@@ -18,16 +18,19 @@ workload:
             liveness:
               type: https
               path: /healthz
+              port: https
             readiness:
               type: https
               path: /healthz
+              port: https
             startup:
               enabled: false
 service:
   main:
     ports:
       main:
-        port: 8443
+        port: 443
+        targetPort: 8443
 persistence:
   certs:
     enabled: true
