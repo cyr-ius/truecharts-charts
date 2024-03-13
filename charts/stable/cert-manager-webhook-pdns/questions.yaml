@@ -105,6 +105,7 @@ questions:
 # Include{containerConfig}
 # Include{podOptions}
 # Include{serviceRoot}
+# Include{serviceMain}
 # Include{serviceSelectorClusterIP}
 # Include{serviceSelectorExtras}
                     - variable: main
