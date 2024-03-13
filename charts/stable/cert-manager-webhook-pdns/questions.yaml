@@ -16,7 +16,7 @@ questions:
     group: "App Configuration"
     schema:
       type: string
-      default: "acme.mycompany.com"
+      default: "acme.zacharyseguin.ca"
       required: true
   - variable: certManager
     group: "App Configuration"
