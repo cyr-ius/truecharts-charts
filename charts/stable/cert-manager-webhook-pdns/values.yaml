@@ -29,7 +29,6 @@ workload:
               port: https
             startup:
               enabled: false
-              volumes:
       volumes:
         - name: certs
           secret:
