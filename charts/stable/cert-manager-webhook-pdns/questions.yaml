@@ -1,6 +1,48 @@
 # Include{groups}
 questions:
 # Include{global}
+# Include{serviceRoot}
+# Include{serviceSelectorClusterIP}
+# Include{serviceSelectorExtras}
+                    - variable: main
+                      label: "Main Service Port Configuration"
+                      schema:
+                        additional_attrs: true
+                        type: dict
+                        attrs:
+                          - variable: port
+                            label: "Port"
+                            description: "This port exposes the container port on the service"
+                            schema:
+                              type: int
+                              default: 8983
+                              required: true
+# Include{persistenceRoot}
+      additional_attrs: true
+      type: dict
+      attrs:
+        - variable: db
+          label: "DB Storage"
+          description: "Stores the old Application Database."
+          schema:
+            type: dict
+            hidden: true
+            attrs:
+# Include{persistenceBasic}
+# Include{persistenceList}
+# Include{securityContextRoot}
+              - variable: runAsUser
+                label: "runAsUser"
+                description: "The UserID of the user running the application"
+                schema:
+                  type: int
+                  default: 100
+              - variable: runAsGroup
+                label: "runAsGroup"
+                description: "The groupID this App of the user running the application"
+                schema:
+                  type: int
+                  default: 100
   - variable: groupName
     label: "Group name"
     group: "App Configuration"
@@ -106,3 +148,11 @@ questions:
           schema:
             type: boolean
             default: true
+
+# Include{resources}
+# Include{advanced}
+# Include{addons}
+# Include{codeserver}
+# Include{netshoot}
+# Include{vpn}
+# Include{documentation}
