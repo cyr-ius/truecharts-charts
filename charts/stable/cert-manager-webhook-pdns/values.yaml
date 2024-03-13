@@ -42,6 +42,7 @@ service:
         targetPort: 443
 persistence:
   certs:
+    enabled: true
     readOnly: true
     mountPath: "/tls"
 portal:
