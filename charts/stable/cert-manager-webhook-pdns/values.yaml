@@ -31,8 +31,10 @@ service:
 persistence:
   certs:
     enabled: true
+    type: secret
     readOnly: true
     mountPath: "/tls"
+    objectName: secretName
 portal:
   open:
     enabled: false
