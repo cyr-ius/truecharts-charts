@@ -1,69 +1,63 @@
-image:
-  repository: zachomedia/cert-manager-webhook-pdns
-  tag: v2.5.0
-  pullPolicy: IfNotPresent
-workload:
-  main:
-    podSpec:
-      containers:
-        main:
-          args:
-            - --tls-cert-file=/tls/tls.crt
-            - --tls-private-key-file=/tls/tls.key
-            - --secure-port=8443
-          env:
-            GROUP_NAME: "acme.mycompany.com"
-          ports:
-            - name: https
-              containerPort: 8443
-              protocol: TCP
-          probes:
-            liveness:
-              type: https
-              path: /healthz
-            readiness:
-              type: https
-              path: /healthz
-            startup:
-              enabled: false
-service:
-  main:
-    enabled: true
-    type: ClusterIP
-    ports:
-      main:
-        port: 443
-        type: https
-presistence:
-  certs:
-    enabled: true
-    readOnly: true
-    mountPath: "/tls"
-portal:
-  open:
-    enabled: false
-securityContext:
-  container:
-    runAsUser: 100
-    runAsGroup: 100
-operator:
-  verify:
-    additionalOperators:
-      - cert-manager
-    enabled: true
-    failOnError: false
-groupName: acme.mycompany.com
+# The GroupName here is used to identify your company or business unit that
+# created this webhook.
+# For example, this may be "acme.mycompany.com".
+# This name will need to be referenced in each Issuer's `webhook` stanza to
+# inform cert-manager of where to send ChallengePayload resources in order to
+# solve the DNS01 challenge.
+# This group name should be **unique**, hence using your own company's domain
+# here is recommended.
+groupName: acme.zacharyseguin.ca
+
 certManager:
   namespace: ix-cert-manager
   serviceAccountName: cert-manager-certmanager
-webhookPdns:
-  serverID: localhost
-  ttl: 120
-  timeout: 30
-  caBundle: BASE64_ENCODED_CA_BUNDLE
+
+image:
+  repository: zachomedia/cert-manager-webhook-pdns
+  # tag: latest
+  pullPolicy: IfNotPresent
+
 nameOverride: ""
 fullnameOverride: ""
-resources: {}
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+service:
+  type: ClusterIP
+  port: 443
+
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
 nodeSelector: {}
+
 tolerations: []
+
 affinity: {}
+
+containerSecurityContext:
+  runAsUser: 100
+  runAsGroup: 100
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+priorityClassName: ""
