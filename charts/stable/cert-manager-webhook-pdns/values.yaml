@@ -16,9 +16,13 @@ workload:
             GROUP_NAME: "acme.zacharyseguin.ca"
           probes:
             liveness:
-              enabled: false
+              enabled: true
+              path: /healthz
+              port: https
             readiness:
-              enabled: false
+              enabled: true
+              path: /healthz
+              port: https
             startup:
               enabled: false
               volumes:
