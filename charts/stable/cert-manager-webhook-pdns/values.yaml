@@ -16,15 +16,16 @@ workload:
             GROUP_NAME: "acme.zacharyseguin.ca"
           probes:
             liveness:
-              type: https
-              path: /healthz
-              port: https
+              enabled: false
             readiness:
-              type: https
-              path: /healthz
-              port: https
+              enabled: false
             startup:
               enabled: false
+              volumes:
+      volumes:
+        - name: certs
+          secret:
+            secretName: cert-manager-webhook-pdns-webhook-tls
 service:
   main:
     ports:
@@ -38,6 +39,7 @@ persistence:
     readOnly: true
     mountPath: "/tls"
     objectName: secretName
+    optional: false
 portal:
   open:
     enabled: false
