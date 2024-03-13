@@ -104,15 +104,6 @@ questions:
                   type: string
 # Include{containerConfig}
 # Include{podOptions}
-# Include{serviceRoot}
-# Include{serviceSelectorClusterIP}
-# Include{serviceSelectorExtras}
-# Include{serviceExpertRoot}
-# Include{serviceExpert}
-# Include{serviceList}
-# Include{persistenceRoot}
-# Include{persistenceBasic}
-# Include{persistenceList}
 # Include{securityContextRoot}
               - variable: runAsUser
                 label: "runAsUser"
