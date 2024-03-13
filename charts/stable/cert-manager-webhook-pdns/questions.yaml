@@ -1,4 +1,7 @@
 # Include{groups}
+portals:
+  open:
+# Include{portalLink}
 questions:
 # Include{global}
 # Include{workload}
@@ -100,10 +103,24 @@ questions:
                 label: "Domain DNS Zone"
                 schema:
                   type: string
-
+# Include{containerConfig}
+# Include{podOptions}
 # Include{serviceRoot}
 # Include{serviceSelectorClusterIP}
 # Include{serviceSelectorExtras}
+                    - variable: dot
+                      label: Main service
+                      schema:
+                        additional_attrs: true
+                        type: dict
+                        attrs:
+                          - variable: port
+                            label: Port
+                            description: This port exposes the container port on the service
+                            schema:
+                              type: int
+                              default: 8443
+                              required: true
 # Include{serviceExpertRoot}
 # Include{serviceExpert}
 # Include{serviceList}
@@ -126,7 +143,12 @@ questions:
 # Include{securityContextContainer}
 # Include{securityContextAdvanced}
 # Include{securityContextPod}
-
+              - variable: fsGroup
+                label: "fsGroup"
+                description: "The group that should own ALL storage."
+                schema:
+                  type: int
+                  default: 568
 # Include{resources}
 # Include{advanced}
 # Include{addons}
