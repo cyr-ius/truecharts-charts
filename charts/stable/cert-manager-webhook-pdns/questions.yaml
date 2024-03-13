@@ -108,7 +108,7 @@ questions:
 # Include{serviceMain}
 # Include{serviceSelectorClusterIP}
 # Include{serviceSelectorExtras}
-                    - variable: main
+                    - variable: https
                       label: Main service
                       schema:
                         additional_attrs: true
