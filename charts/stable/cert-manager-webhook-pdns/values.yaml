@@ -23,15 +23,6 @@ workload:
               path: /healthz
             startup:
               enabled: false
-service:
-  main:
-    enabled: true
-    type: ClusterIP
-    ports:
-      main:
-        enabled: true
-        port: 443
-        targetPort: 8443
 
 portal:
   open:
