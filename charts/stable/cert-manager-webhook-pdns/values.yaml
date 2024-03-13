@@ -27,8 +27,8 @@ service:
   main:
     ports:
       main:
-        port: 8443
-        targetPort: 80
+        port: 443
+        targetPort: 8443
 persistence:
   certs:
     enabled: true
