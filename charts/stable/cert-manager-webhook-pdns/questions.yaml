@@ -18,7 +18,6 @@ questions:
       type: string
       default: "acme.mycompany.com"
       required: true
-
   - variable: certManager
     group: "App Configuration"
     label: "Cert Manager"
@@ -38,7 +37,6 @@ questions:
             type: string
             default: "cert-manager-certmanager"
             required: true
-
   - variable: webhookPdns
     group: "App Configuration"
     label: "Webhook"
@@ -57,7 +55,8 @@ questions:
             type: string
             required: true
         - variable: apiKeySecretRef
-          label: "API Key (encoded base64)"
+          label: "API Key"
+          description: "your string must be encoded to Base64"
           schema:
             type: string
             required: true
