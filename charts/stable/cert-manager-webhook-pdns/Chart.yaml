@@ -1,7 +1,7 @@
 kubeVersion: ">=1.24.0-0"
 apiVersion: v2
 name: cert-manager-webhook-pdns
-version: 1.7.4
+version: 1.7.5
 description: Cert Manager Webhook for PowerDNS.
 type: application
 home: https://github.com/cyr-ius/cert-manager-webhook-pdns
@@ -20,7 +20,7 @@ annotations:
   truecharts.org/train: stable
 dependencies:
   - name: common
-    version: 19.0.0
+    version: 19.0.3
     repository: oci://tccr.io/truecharts
     condition: ""
     alias: ""
