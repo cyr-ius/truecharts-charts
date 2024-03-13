@@ -36,7 +36,7 @@ service:
       main:
         port: 443
         protocol: https
-        targetPort: https
+        targetPort: 443
 persistence:
   certs:
     enabled: true
