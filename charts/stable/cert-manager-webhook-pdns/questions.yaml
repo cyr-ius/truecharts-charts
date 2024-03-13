@@ -119,7 +119,7 @@ questions:
                             description: This port exposes the container port on the service
                             schema:
                               type: int
-                              default: 443
+                              default: 8443
                               required: true
 # Include{serviceExpertRoot}
 # Include{serviceExpert}
