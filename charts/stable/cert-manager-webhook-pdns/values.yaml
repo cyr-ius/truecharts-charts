@@ -29,6 +29,10 @@ service:
       main:
         port: 8443
         targetPort: 80
+persistence:
+  certs:
+    enabled: true
+    mountPath: "/tls"
 portal:
   open:
     enabled: false
