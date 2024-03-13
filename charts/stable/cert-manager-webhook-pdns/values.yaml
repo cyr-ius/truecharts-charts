@@ -24,7 +24,6 @@ workload:
               enabled: false
 service:
   main:
-    enabled: true
     type: ClusterIP
     ports:
       main:
