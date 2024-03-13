@@ -22,13 +22,6 @@ workload:
               path: /healthz
             startup:
               enabled: false
-service:
-  main:
-    type: ClusterIP
-    ports:
-      main:
-        port: 443
-        type: https
 persistence:
   certs:
     enabled: true
