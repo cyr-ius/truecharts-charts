@@ -46,9 +46,9 @@ service:
   main:
     ports:
       main:
-        port: 443
+        port: 8443
         protocol: https
-        targetPort: 443
+        targetPort: 8443
 portal:
   open:
     enabled: false
