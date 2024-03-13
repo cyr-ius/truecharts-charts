@@ -20,7 +20,7 @@ annotations:
   truecharts.org/train: stable
 dependencies:
   - name: common
-    version: 19.0.0
+    version: 19.0.3
     repository: oci://tccr.io/truecharts
     condition: ""
     alias: ""
