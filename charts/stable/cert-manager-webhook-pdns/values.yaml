@@ -46,7 +46,7 @@ persistence:
     type: secret
     secretName: cert-manager-webhook-pdns-webhook-tls
     optional: false
-    objectName: secret
+    objectName: cert-manager-webhook-pdns-webhook-tls
 service:
   main:
     ports:
