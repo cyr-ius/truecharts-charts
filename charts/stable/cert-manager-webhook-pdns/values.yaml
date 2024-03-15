@@ -30,15 +30,14 @@ workload:
               port: https
             startup:
               enabled: false
+          volumeMounts:
+            - name: certs
+              mountPath: /tls
+              readOnly: true
       volumes:
         - name: certs
           secret:
             secretName: cert-manager-webhook-pdns-webhook-tls
-persistence:
-  certs:
-    enabled: true
-    mountPath: /tls
-    readOnly: true
 service:
   main:
     ports:
