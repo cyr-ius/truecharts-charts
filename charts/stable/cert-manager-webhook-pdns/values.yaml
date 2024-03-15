@@ -7,6 +7,22 @@ manifestManager:
 workload:
   main:
     podSpec:
+      initContainers:
+        main:
+          type: install
+          enabled: true
+          imageSelector: image
+          securityContext:
+            runAsUser: 100
+            runAsGroup: 100
+          volumeMounts:
+            - name: certs
+              mountPath: /tls
+              readOnly: true
+        volumes:
+        - name: certs
+          secret:
+            secretName: cert-manager-webhook-pdns-webhook-tls  
       containers:
         main:
           args:
@@ -30,23 +46,6 @@ workload:
               port: https
             startup:
               enabled: false
-          volumeMounts:
-            - name: certs
-              mountPath: /tls
-              readOnly: true
-      volumes:
-        - name: certs
-          secret:
-            secretName: cert-manager-webhook-pdns-webhook-tls
-persistence:
-  certs:
-    enabled: true
-    mountPath: /tls
-    readOnly: true
-    type: secret
-    secretName: cert-manager-webhook-pdns-webhook-tls
-    optional: false
-    objectName: cert-manager-webhook-pdns-webhook-tls
 service:
   main:
     ports:
@@ -61,8 +60,7 @@ portal:
 groupName: acme.zacharyseguin.ca
 
 certManager:
-  namespace: ix-cert-manager
-  serviceAccountName: cert-manager-certmanager
+  namespace: serviceAccountName: cert-manager-certmanager
 
 nameOverride: ""
 fullnameOverride: ""
