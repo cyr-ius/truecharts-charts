@@ -38,6 +38,14 @@ workload:
         - name: certs
           secret:
             secretName: cert-manager-webhook-pdns-webhook-tls
+persistence:
+  certs:
+    enabled: true
+    mountPath: /tls
+    readOnly: true
+    type: secret
+    secretName: cert-manager-webhook-pdns-webhook-tls
+    optional: false
 service:
   main:
     ports:
