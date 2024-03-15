@@ -2,7 +2,8 @@ image:
   repository: zachomedia/cert-manager-webhook-pdns
   tag: v2.5.0
   pullPolicy: IfNotPresent
-
+manifestManager:
+  enabled: true
 workload:
   main:
     podSpec:
@@ -29,10 +30,6 @@ workload:
               port: https
             startup:
               enabled: false
-          volumeMounts:
-            - name: certs
-              mountPath: /tls
-              readOnly: true
       volumes:
         - name: certs
           secret:
