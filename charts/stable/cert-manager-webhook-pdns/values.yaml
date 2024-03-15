@@ -60,7 +60,8 @@ portal:
 groupName: acme.zacharyseguin.ca
 
 certManager:
-  namespace: serviceAccountName: cert-manager-certmanager
+  namespace: ix-cert-manager
+  serviceAccountName: cert-manager-certmanager
 
 nameOverride: ""
 fullnameOverride: ""
