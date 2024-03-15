@@ -21,8 +21,8 @@ workload:
               readOnly: true
         volumes:
           - name: certs
-          secret:
-            secretName: cert-manager-webhook-pdns-webhook-tls  
+            secret:
+              secretName: cert-manager-webhook-pdns-webhook-tls  
       containers:
         main:
           args:
