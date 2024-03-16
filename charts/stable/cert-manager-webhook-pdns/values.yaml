@@ -52,15 +52,15 @@ persistence:
     optional: false
     expandObjectName: false
   varrun:
-    enabled: true
+    enabled: false
   varlogs:
-    enabled: true
+    enabled: false
   tmp:
-    enabled: true
+    enabled: false
   shared:
-    enabled: true
+    enabled: false
   devshm:
-    enabled: true
+    enabled: false
 
 securityContext:
   container:
