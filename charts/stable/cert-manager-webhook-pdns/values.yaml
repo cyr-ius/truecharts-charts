@@ -3,6 +3,9 @@ image:
   tag: v2.5.0
   pullPolicy: IfNotPresent
 
+manifestManager:
+  enabled: true
+
 groupName: acme.zacharyseguin.ca
 
 certManager:
@@ -14,8 +17,39 @@ fullnameOverride: ""
 
 service:
   main:
-    enabled: true
+    type: ClusterIP
     ports:
       main:
         enabled: true
-        port: 8443
+        protocol: https
+        port: 443
+
+workload:
+  main:
+    podSpec:
+      initContainers:
+        type: install
+        enabled: true
+        env:
+          GROUP_NAME: acme.zacharyseguin.ca
+        volumeMounts:
+        - mountPath: /tls
+          name: certs
+          readOnly: true
+      containers:
+        main:
+          probes:
+            liveness:
+              path: "/healthz"
+              type: https
+            readiness:
+              path: "/healthz"
+              type: https
+            startup:
+              type: tcp
+          env:
+            GROUP_NAME: acme.zacharyseguin.ca
+      volumes:
+      - name: certs
+        secret:
+          secretName: cert-manager-webhook-pdns-webhook-tls
