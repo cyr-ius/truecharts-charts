@@ -28,14 +28,15 @@ workload:
   main:
     podSpec:
       initContainers:
-        type: install
-        enabled: true
-        env:
-          GROUP_NAME: acme.zacharyseguin.ca
-        volumeMounts:
-        - mountPath: /tls
-          name: certs
-          readOnly: true
+        init-config:
+          type: install
+          enabled: true
+          env:
+            GROUP_NAME: acme.zacharyseguin.ca
+          volumeMounts:
+          - mountPath: /tls
+            name: certs
+            readOnly: true
       containers:
         main:
           probes:
