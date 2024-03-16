@@ -1,31 +1,5 @@
 # Include{groups}
 questions:
-  - variable: groupName
-    label: "Group name"
-    group: "App Configuration"
-    schema:
-      type: string
-      default: "acme.zacharyseguin.ca"
-      required: true
-  - variable: certManager
-    group: "App Configuration"
-    label: "Cert Manager"
-    schema:
-      additional_attrs: true
-      type: dict
-      attrs:
-        - variable: namespace
-          label: "Namespace"
-          schema:
-            type: string
-            default: "ix-cert-manager"
-            required: true
-        - variable: serviceAccountName
-          label: "Service Account Name"
-          schema:
-            type: string
-            default: "cert-manager-certmanager"
-            required: true
   - variable: webhookPdns
     group: "App Configuration"
     label: "Webhook"
