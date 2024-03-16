@@ -27,4 +27,4 @@ spec:
               caBundle: {{ .Values.webhookPdns.caBundle }}
               ttl: {{ .Values.webhookPdns.ttl }}
               timeout: {{ .Values.webhookPdns.timeout }}
-              allowed-zones: {{ .Values.webhookPdns.allowed-zones }}
+              allowed-zones: {{ .Values.webhookPdns.allowedzones }}

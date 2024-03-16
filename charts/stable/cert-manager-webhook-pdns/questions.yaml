@@ -81,7 +81,7 @@ questions:
           schema:
             default: 30
             type: int
-        - variable: allowed-zones
+        - variable: allowedzones
           label: "Allowed zones"
           description: "Remember the trailing dot to make the zone-name"
           schema:
