@@ -23,6 +23,7 @@ service:
         enabled: true
         protocol: https
         port: 443
+        targetPort: 8443
 
 workload:
   main:
@@ -55,11 +56,12 @@ workload:
         secret:
           secretName: cert-manager-webhook-pdns-webhook-tls
 
+pod:
+  volumes:
+    secret:
+      secretName: cert-manager-webhook-pdns-webhook-tls
+
 persistence:
-  certs:
-    enabled: true
-    mountPath: /tls
-    readOnly: true
   varrun:
     enabled: false
   varlogs:
@@ -70,3 +72,7 @@ persistence:
     enabled: false
   devshm:
     enabled: false
+
+securityContext:
+  runAsGroup: 100
+  runAsUser: 100
