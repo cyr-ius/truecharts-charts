@@ -1,6 +1,5 @@
 # Include{groups}
 questions:
-# Include{global}
   - variable: groupName
     label: "Group name"
     group: "App Configuration"

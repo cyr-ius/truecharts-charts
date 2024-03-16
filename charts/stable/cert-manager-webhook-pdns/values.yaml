@@ -2,6 +2,8 @@ image:
   repository: zachomedia/cert-manager-webhook-pdns
   tag: v2.5.0
   pullPolicy: IfNotPresent
+manifestManager:
+  enabled: true
 service:
   main:
     ports:
