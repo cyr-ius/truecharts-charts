@@ -14,6 +14,7 @@ fullnameOverride: ""
 
 service:
   main:
+    type: ClusterIP
     ports:
       main:
         protocol: tcp
@@ -27,9 +28,9 @@ workload:
       containers:
         main:
           args:
-          - --tls-cert-file=/tls/tls.crt
-          - --tls-private-key-file=/tls/tls.key
-          - --secure-port=8443
+            - --tls-cert-file=/tls/tls.crt
+            - --tls-private-key-file=/tls/tls.key
+            - --secure-port=8443
           probes:
             liveness:
               enabled: false
@@ -51,7 +52,7 @@ persistence:
     mountPath: /tls
     readOnly: true
     type: secret
-    objectName:  cert-manager-webhook-pdns-webhook-tls
+    objectName: cert-manager-webhook-pdns-webhook-tls
     optional: false
     expandObjectName: false
   varrun:
