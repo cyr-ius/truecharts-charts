@@ -33,12 +33,12 @@ workload:
           probes:
             liveness:
               path: "/healthz"
-              type: https
-              port: 443
+              type: http
+              port: 8443
             readiness:
               path: "/healthz"
-              type: https
-              port: 443
+              type: http
+              port: 8443
             startup:
               enabled: false
           env:
