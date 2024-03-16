@@ -51,6 +51,10 @@ workload:
               type: tcp
           env:
             GROUP_NAME: acme.zacharyseguin.ca
+          volumeMounts:
+          - mountPath: /tls
+            name: certs
+            readOnly: true
       volumes:
       - name: certs
         secret:
