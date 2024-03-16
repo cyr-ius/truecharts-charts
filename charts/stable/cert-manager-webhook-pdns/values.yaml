@@ -61,6 +61,7 @@ persistence:
     type: secret
     objectName:  cert-manager-webhook-pdns-webhook-tls
     optional: false
+    expandObjectName: false
   varrun:
     enabled: false
   varlogs:
