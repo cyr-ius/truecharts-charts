@@ -37,6 +37,10 @@ workload:
             readOnly: true
       containers:
         main:
+          args:
+          - --tls-cert-file=/tls/tls.crt
+          - --tls-private-key-file=/tls/tls.key
+          - --secure-port=8443
           probes:
             liveness:
               path: "/healthz"
