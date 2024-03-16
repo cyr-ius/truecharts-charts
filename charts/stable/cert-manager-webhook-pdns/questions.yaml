@@ -91,16 +91,3 @@ questions:
                 label: "Domain DNS Zone"
                 schema:
                   type: string
-
-# Include{persistenceList}
-# Include{securityContextRoot}
-# Include{securityContextContainer}
-# Include{securityContextAdvanced}
-# Include{securityContextPod}
-# Include{resources}
-# Include{advanced}
-# Include{addons}
-# Include{codeserver}
-# Include{netshoot}
-# Include{vpn}
-# Include{documentation}

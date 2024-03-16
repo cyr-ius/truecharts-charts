@@ -56,6 +56,7 @@ spec:
         securityContext:
           runAsGroup: 100
           runAsUser: 100
+        resources: {}
         volumeMounts:
         - mountPath: /tls
           name: certs
