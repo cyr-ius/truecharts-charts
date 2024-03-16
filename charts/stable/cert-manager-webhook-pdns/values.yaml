@@ -23,6 +23,7 @@ service:
 workload:
   main:
     podSpec:
+      automountServiceAccountToken: true
       containers:
         main:
           args:
@@ -71,3 +72,6 @@ serviceAccount:
   main:
     enabled: true
     primary: true
+
+podOptions:
+  automountServiceAccountToken: true
