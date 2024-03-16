@@ -62,6 +62,9 @@ workload:
           secretName: cert-manager-webhook-pdns-webhook-tls
 
 persistence:
+  certs:
+    mountPath: /tls
+    readOnly: true
   varrun:
     enabled: false
   varlogs:
