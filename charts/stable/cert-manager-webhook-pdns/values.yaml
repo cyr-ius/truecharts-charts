@@ -61,6 +61,10 @@ pod:
     secret:
       secretName: cert-manager-webhook-pdns-webhook-tls
 
+volumes:
+  secret:
+    secretName: cert-manager-webhook-pdns-webhook-tls
+
 persistence:
   varrun:
     enabled: false
