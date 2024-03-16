@@ -11,20 +11,3 @@ certManager:
 
 nameOverride: ""
 fullnameOverride: ""
-
-workload:
-  main:
-    podSpec:
-      containers:
-        main:
-          env:
-            - name: GROUP_NAME
-              value: acme.zacharyseguin.ca
-          volumeMounts:
-            - mountPath: /tls
-              name: certs
-              readOnly: true
-        volumes:
-          - name: certs
-            secret:
-              secretName: cert-manager-webhook-pdns-webhook-tls
