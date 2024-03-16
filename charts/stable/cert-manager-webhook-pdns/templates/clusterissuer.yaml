@@ -4,10 +4,7 @@ metadata:
   name: {{ include "cert-manager-webhook-pdns.fullname" . }}
   namespace: {{ .Release.Namespace | quote }}
   labels:
-    app: {{ include "cert-manager-webhook-pdns.name" . }}
-    chart: {{ include "cert-manager-webhook-pdns.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "cert-manager-webhook-pdns.labels" . | nindent 4 }}
 spec:
   acme:
     email: {{ .Values.webhookPdns.email }}
