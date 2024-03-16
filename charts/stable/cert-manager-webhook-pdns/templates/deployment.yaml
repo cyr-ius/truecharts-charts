@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    meta.helm.sh/release-name: cert-manager-webhook-pdns
+    meta.helm.sh/release-namespace: default
+  labels:
+    app.kubernetes.io/instance: cert-manager-webhook-pdns
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: cert-manager-webhook-pdns
+    app.kubernetes.io/version: v2.5.0
+  name: cert-manager-webhook-pdns
+  namespace: default
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: cert-manager-webhook-pdns
+      app.kubernetes.io/name: cert-manager-webhook-pdns
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: cert-manager-webhook-pdns
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: cert-manager-webhook-pdns
+        app.kubernetes.io/version: v2.5.0
+        helm.sh/chart: cert-manager-webhook-pdns-3.1.2
+    spec:
+      containers:
+      - args:
+        - --tls-cert-file=/tls/tls.crt
+        - --tls-private-key-file=/tls/tls.key
+        - --secure-port=8443
+        env:
+        - name: GROUP_NAME
+          value: acme.zacharyseguin.ca
+        image: zachomedia/cert-manager-webhook-pdns:v2.5.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: https
+            scheme: HTTPS
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: cert-manager-webhook-pdns
+        ports:
+        - containerPort: 8443
+          name: https
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: https
+            scheme: HTTPS
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources: {}
+        securityContext:
+          runAsGroup: 100
+          runAsUser: 100
+        volumeMounts:
+        - mountPath: /tls
+          name: certs
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: cert-manager-webhook-pdns
+      serviceAccountName: cert-manager-webhook-pdns
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: certs
+        secret:
+          defaultMode: 420
+          secretName: cert-manager-webhook-pdns-webhook-tls
