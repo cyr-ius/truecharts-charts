@@ -53,18 +53,13 @@ workload:
               enabled: false
           env:
             GROUP_NAME: acme.zacharyseguin.ca
-      volumes:
-      - name: certs
-        secret:
-          secretName: cert-manager-webhook-pdns-webhook-tls
-
 persistence:
   certs:
     enabled: true
     mountPath: /tls
     readOnly: true
     type: secret
-    secretName:  cert-manager-webhook-pdns-webhook-tls
+    objectName:  cert-manager-webhook-pdns-webhook-tls
     optional: false
   varrun:
     enabled: false
