@@ -3,9 +3,6 @@ image:
   tag: v2.5.0
   pullPolicy: IfNotPresent
 
-manifestManager:
-  enabled: true
-
 groupName: acme.zacharyseguin.ca
 
 certManager:
@@ -20,8 +17,8 @@ service:
     ports:
       main:
         protocol: tcp
-        port: 8443
-        targetPort: 8443
+        port: 443
+        targetPort: 443
 
 workload:
   main:
@@ -36,9 +33,11 @@ workload:
             liveness:
               path: "/healthz"
               type: https
+              port: "{{ .Values.service.main.ports.main.targetPort }}"
             readiness:
               path: "/healthz"
               type: https
+              port: "{{ .Values.service.main.ports.main.targetPort }}"
             startup:
               enabled: false
           env:

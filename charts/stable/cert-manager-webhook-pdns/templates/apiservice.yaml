@@ -1,12 +1,9 @@
 apiVersion: apiregistration.k8s.io/v1
 kind: APIService
 metadata:
-  name: v1.{{ .Values.groupName }}
+  name: v1alpha1.{{ .Values.groupName }}
   labels:
-    app: {{ include "cert-manager-webhook-pdns.name" . }}
-    chart: {{ include "cert-manager-webhook-pdns.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "cert-manager-webhook-pdns.labels" . | nindent 4 }}
   annotations:
     cert-manager.io/inject-ca-from: "{{ .Release.Namespace }}/{{ include "cert-manager-webhook-pdns.servingCertificate" . }}"
 spec:
@@ -16,4 +13,4 @@ spec:
   service:
     name: {{ include "cert-manager-webhook-pdns.fullname" . }}
     namespace: {{ .Release.Namespace }}
-  version: v1
+  version: v1alpha1
