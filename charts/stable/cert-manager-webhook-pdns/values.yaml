@@ -17,7 +17,8 @@ service:
     ports:
       main:
         protocol: tcp
-        port: 8443
+        port: 443
+        targetPort: 8443
 
 workload:
   main:
@@ -31,13 +32,15 @@ workload:
           - --secure-port=8443
           probes:
             liveness:
-              path: "/healthz"
-              type: https
-              port: 443
+              enabled: false
+              # path: "/healthz"
+              # type: https
+              # port: 443
             readiness:
-              path: "/healthz"
-              type: https
-              port: 443
+              enabled: false
+              # path: "/healthz"
+              qtype: https
+              # port: 443
             startup:
               enabled: false
           env:
