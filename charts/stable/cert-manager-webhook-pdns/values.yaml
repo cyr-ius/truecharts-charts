@@ -19,7 +19,7 @@ service:
   main:
     ports:
       main:
-        protocol: TCP
+        protocol: tcp
         port: 8443
 
 workload:
