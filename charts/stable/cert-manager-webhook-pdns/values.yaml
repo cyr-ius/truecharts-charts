@@ -11,3 +11,11 @@ certManager:
 
 nameOverride: ""
 fullnameOverride: ""
+
+service:
+  main:
+    enabled: true
+    ports:
+      main:
+        enabled: true
+        port: 8443
