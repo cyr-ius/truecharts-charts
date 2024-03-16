@@ -49,7 +49,7 @@ workload:
               path: "/healthz"
               type: https
             startup:
-              type: tcp
+              enabled: false
           env:
             GROUP_NAME: acme.zacharyseguin.ca
           volumeMounts:
