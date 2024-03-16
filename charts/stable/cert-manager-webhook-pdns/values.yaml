@@ -19,14 +19,6 @@ service:
         protocol: tcp
         port: 8443
         targetPort: 8443
-  https:
-    enabled: true
-    ports:
-      https:
-        enabled: true
-        protocol: https
-        port: 443
-        targetPort: 443
 
 workload:
   main:
@@ -41,11 +33,11 @@ workload:
             liveness:
               path: "/healthz"
               type: https
-              port: "{{ .Values.service.main.ports.main.targetPort }}"
+              port: 443
             readiness:
               path: "/healthz"
               type: https
-              port: "{{ .Values.service.main.ports.main.targetPort }}"
+              port: 443
             startup:
               enabled: false
           env:
@@ -74,3 +66,8 @@ securityContext:
   container:
     runAsGroup: 100
     runAsUser: 100
+
+serviceAccount:
+  main:
+    enabled: true
+    primary: true
