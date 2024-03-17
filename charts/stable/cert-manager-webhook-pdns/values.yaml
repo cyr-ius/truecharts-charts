@@ -32,15 +32,15 @@ workload:
             - --secure-port=8443
           probes:
             liveness:
-              enabled: false
-              # path: "/healthz"
-              # type: https
-              # port: 443
+              enabled: true
+              path: "/healthz"
+              type: https
+              port: 8443
             readiness:
-              enabled: false
-              # path: "/healthz"
-              # type: https
-              # port: 443
+              enabled: true
+              path: "/healthz"
+              type: https
+              port: 8443
             startup:
               enabled: false
           env:
@@ -51,9 +51,8 @@ persistence:
     mountPath: /tls
     readOnly: true
     type: secret
-    objectName: cert-manager-webhook-pdns-webhook-tls
+    objectName: webhook-tls
     optional: false
-    expandObjectName: false
   varrun:
     enabled: false
   varlogs:
