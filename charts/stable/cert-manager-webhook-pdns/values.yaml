@@ -51,8 +51,9 @@ persistence:
     mountPath: /tls
     readOnly: true
     type: secret
-    objectName: webhook-tls
+    objectName: cert-manager-webhook-pdns-webhook-tls
     optional: false
+    expandObjectName: false
   varrun:
     enabled: false
   varlogs:
