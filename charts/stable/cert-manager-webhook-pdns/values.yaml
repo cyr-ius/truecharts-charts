@@ -1,6 +1,6 @@
 image:
   repository: zachomedia/cert-manager-webhook-pdns
-  tag: v2.5.0
+  tag: v2.5.1@sha256:345f876cb99818979b06388485973dfd375a3ef34bff3b288b117059fac80259
   pullPolicy: IfNotPresent
 
 groupName: acme.zacharyseguin.ca
