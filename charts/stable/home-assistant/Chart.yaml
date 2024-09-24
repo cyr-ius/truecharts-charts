@@ -10,7 +10,7 @@ apiVersion: v2
 appVersion: 2024.3.1
 dependencies:
   - name: common
-    version: 24.0.8
+    version: 24.1.19
     repository: oci://tccr.io/truecharts
     condition: ""
     alias: ""
@@ -35,4 +35,4 @@ sources:
   - https://github.com/home-assistant/home-assistant
   - https://github.com/cdr/code-server
 type: application
-version: 24.12.1
+version: 24.13.0
