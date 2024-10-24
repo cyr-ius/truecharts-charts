@@ -1,5 +1,5 @@
 annotations:
-  max_scale_version: 24.04.1
+  max_scale_version: 24.04.9
   min_scale_version: 24.04.0
   truecharts.org/category: media
   truecharts.org/max_helm_version: "3.15"
@@ -34,4 +34,4 @@ sources:
   - https://github.com/truecharts/charts/tree/master/charts/stable/zigbee2mqtt
   - https://hub.docker.com/r/koenkk/zigbee2mqtt
 type: application
-version: 13.5.0
+version: 13.5.1
