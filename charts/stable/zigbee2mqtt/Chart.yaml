@@ -10,7 +10,7 @@ apiVersion: v2
 appVersion: 1.40.2
 dependencies:
   - name: common
-    version: 24.0.1
+    version: 24.1.19
     repository: oci://tccr.io/truecharts
     condition: ""
     alias: ""
@@ -35,4 +35,4 @@ sources:
   - https://github.com/truecharts/charts/tree/master/charts/stable/zigbee2mqtt
   - https://hub.docker.com/r/koenkk/zigbee2mqtt
 type: application
-version: 13.5.3
+version: 13.6.0
